@@ -1,12 +1,39 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
-class Screen
+namespace screen
 {
+	class Screens
+	{
+	public:
 
+		enum States
+		{
+			menu,
+			loading,
+			gameplay,
+			result,
+			credits
+		};
 
-public:
+		States states;
 
-};
+		void updateMenu();
+		void drawMenu();
+
+		void updateLoading();
+		void drawLoading();
+
+		void updateGameplay();
+		void drawGameplay();
+
+		void updateResult();
+		void drawResult();
+
+		void updateCredits();
+		void drawCredits();
+
+	};
+}
 #endif // !SCREEN_H
 
