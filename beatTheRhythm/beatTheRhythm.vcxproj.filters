@@ -11,6 +11,9 @@
     <ClCompile Include="..\src\src\circle.cpp">
       <Filter>src\entities</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\src\screen.cpp">
+      <Filter>src\entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -37,6 +40,9 @@
       <Filter>src\game</Filter>
     </ClInclude>
     <ClInclude Include="..\src\src\circle.h">
+      <Filter>src\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\src\screen.h">
       <Filter>src\entities</Filter>
     </ClInclude>
   </ItemGroup>

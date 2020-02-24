@@ -23,11 +23,13 @@
     <ClCompile Include="..\src\src\game.cpp" />
     <ClCompile Include="..\src\src\main.cpp" />
     <ClCompile Include="..\src\src\player.cpp" />
+    <ClCompile Include="..\src\src\screen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\src\circle.h" />
     <ClInclude Include="..\src\src\game.h" />
     <ClInclude Include="..\src\src\player.h" />
+    <ClInclude Include="..\src\src\screen.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
