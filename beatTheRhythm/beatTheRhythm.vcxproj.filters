@@ -1,7 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\src\main\main.cpp" />
+    <ClCompile Include="..\src\src\player.cpp">
+      <Filter>src\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\src\game.cpp">
+      <Filter>src\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -16,5 +22,16 @@
     <Filter Include="src\screens">
       <UniqueIdentifier>{6296f083-692e-4be1-891a-cd0d4494c222}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\game">
+      <UniqueIdentifier>{e9c842b9-5f6e-4b0d-8cbd-46ee9d0cabbd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\src\player.h">
+      <Filter>src\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\src\game.h">
+      <Filter>src\game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
