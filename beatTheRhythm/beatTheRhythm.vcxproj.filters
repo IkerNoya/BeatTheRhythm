@@ -8,6 +8,9 @@
       <Filter>src\game</Filter>
     </ClCompile>
     <ClCompile Include="..\src\src\main.cpp" />
+    <ClCompile Include="..\src\src\circle.cpp">
+      <Filter>src\entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -32,6 +35,9 @@
     </ClInclude>
     <ClInclude Include="..\src\src\game.h">
       <Filter>src\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\src\circle.h">
+      <Filter>src\entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
