@@ -72,6 +72,7 @@ namespace game
 			ClearBackground(BLACK);
 
 			DrawCircleV(gameplayButton->getPos(), gameplayButton->getRadius(), BLUE);
+			DrawText(TextFormat("Score: %08i", player->getScore()), 640, 10, 80, BLUE);
 
 			break;
 		}
