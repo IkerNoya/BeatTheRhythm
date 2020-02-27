@@ -5,14 +5,14 @@ namespace circle
 {
 	Circle::Circle()
 	{
-		_radius = 1;
+		_radius = 1.0f;
 		_x = 1.0f;
 		_pos.x = 1.0f;
 		_y = 1.0f;
 		_pos.y = 1.0f;
 	}
 
-	Circle::Circle(int radius, float x, float y)
+	Circle::Circle(float radius, float x, float y)
 	{
 		_radius = radius;
 		_x = x;
@@ -26,12 +26,12 @@ namespace circle
 
 	}
 
-	void Circle::setRadius(int radius)
+	void Circle::setRadius(float radius)
 	{
 		_radius = radius;
 	}
 
-	int Circle::getRadius()
+	float Circle::getRadius()
 	{
 		return _radius;
 	}

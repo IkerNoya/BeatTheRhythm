@@ -7,7 +7,7 @@ namespace circle
 {
 	class Circle
 	{
-		int _radius;
+		float _radius;
 		float _x;
 		float _y;
 		Vector2 _pos;
@@ -15,12 +15,12 @@ namespace circle
 	public:
 
 		Circle();
-		Circle(int radius, float x, float y);
+		Circle(float radius, float x, float y);
 
 		~Circle();
 
-		void setRadius(int radius);
-		int getRadius();
+		void setRadius(float radius);
+		float getRadius();
 
 		void setX(float x);
 		float getX();
