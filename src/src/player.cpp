@@ -2,30 +2,41 @@
 
 namespace player 
 {
+	Player::Player()
+	{
+		_hp = 5;
+		_score = 0;
+		_multiplier = 1;
+	}
 
-	void player::setHP(int hp)
+	Player::~Player()
+	{
+
+	}
+
+	void Player::setHP(int hp)
 	{
 		_hp = hp;
 	}
-	int player::getHP()
+	int Player::getHP()
 	{
 		return _hp;
 	}
 
-	void player::setScore(float score)
+	void Player::setScore(float score)
 	{
 		_score = score;
 	}
-	float player::getScore()
+	float Player::getScore()
 	{
 		return _score;
 	}
 
-	void player::setMultiplier(float multiplier)
+	void Player::setMultiplier(float multiplier)
 	{
 		_multiplier = multiplier;
 	}
-	float player::getMultiplier()
+	float Player::getMultiplier()
 	{
 		return _multiplier;
 	}

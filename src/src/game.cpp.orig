@@ -16,14 +16,14 @@ namespace game
 	const float MaxRadius = 100.0f;
 
 	Screens* screens;
-
 	Circle* buttons[buttonLimit];
-	Circle* gameplayButton;
+<<<<<<< HEAD
 	Circle* pointLine[buttonLimit];
-
 	Circle* dinamicCircle[buttonLimit];
-
+=======
+	Circle* gameplayButton;
 	Player* player;
+>>>>>>> 4ef603abd77be96fb478c54ee7bbdf757f66e31d
 
 	Texture menuBackground;
 
@@ -80,9 +80,9 @@ namespace game
 		dinamicCircle[1] = new Circle(MaxRadius, 640, 430);
 		dinamicCircle[2] = new Circle(MaxRadius, 1005, 530);
 
-		gameplayButton = new Circle(70, 640, 360);
-
 		createColors();
+
+		gameplayButton = new Circle(70, 640, 360);
 
 		menuBackground = LoadTexture("res/raw/menuPNG.png");
 
@@ -176,12 +176,15 @@ namespace game
 		case screens->gameplay:
 
 			ClearBackground(BLACK);
-
-			DrawCircleV(gameplayButton->getPos(), gameplayButton->getRadius(), BLUE);
-
+<<<<<<< HEAD
 			
 			DrawText("Prueba pantalla B", 550, 360, 50, GREEN);
 			
+=======
+
+			DrawCircleV(gameplayButton->getPos(), gameplayButton->getRadius(), BLUE);
+
+>>>>>>> 4ef603abd77be96fb478c54ee7bbdf757f66e31d
 			break;
 		}
 	}
