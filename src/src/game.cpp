@@ -87,7 +87,7 @@ namespace game
 		gameplayPointLine = new Circle(middleRadius, 640, 360);
 		gameplayDinamicCircle = new Circle(MaxRadius, 640, 360);
 
-		player = new Player(5,0,1);
+		player = new Player();
 
 		createColors();
 
@@ -211,7 +211,7 @@ namespace game
 
 			//-------------------------center circles------------------------------
 
-			DrawCircleV(gameplayButton->getPos(), gameplayButton->getRadius(), BLUE);
+			DrawCircleV(gameplayButton->getPos(), gameplayButton->getRadius(), YELLOW);
 			DrawCircleLines(gameplayButton->getPos().x, gameplayButton->getPos().y, gameplayButton->getRadius(), centerLinePlay);
 
 
