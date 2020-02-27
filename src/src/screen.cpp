@@ -1,48 +1,60 @@
 #include "screen.h"
+#include "raylib.h"
 
 namespace screen
 {
-	void updateMenu() 
+
+	Screens::Screens()
 	{
 
 	}
-	void drawMenu()
+
+	Screens::~Screens()
 	{
-	
+
 	}
 
-	void updateLoading()
+	void Screens::updateMenu() 
 	{
-	
+
 	}
-	void drawLoading() 
+	void Screens::drawMenu()
 	{
-	
+		
 	}
 
-	void updateGameplay() 
+	void Screens::updateLoading()
 	{
 	
 	}
-	void drawGameplay() 
-	{
-	
-	}
-
-	void updateResult()
-	{
-	
-	}
-	void drawResult()
+	void Screens::drawLoading()
 	{
 	
 	}
 
-	void updateCredits()
+	void Screens::updateGameplay()
 	{
 	
 	}
-	void drawCredits()
+	void Screens::drawGameplay()
+	{
+	
+	}
+
+	void Screens::updateResult()
+	{
+	
+	}
+	void Screens::drawResult()
+	{
+	
+	}
+
+	void Screens::updateCredits()
+	{
+	
+	}
+	void Screens::drawCredits()
 	{
 	
 	}

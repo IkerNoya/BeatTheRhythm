@@ -1,26 +1,50 @@
 #include "player.h"
+#include "screen.h"
 
 #include "raylib.h"
 
-namespace game 
+using namespace screen;
+
+namespace game
 {
 
+	Screens* screens;
 	void init()
 	{
-		InitWindow(1280, 720, "BeatTheRhythm v0.1");
+		InitWindow(1920, 1080, "BeatTheRhythm v0.1");
+		screens = new Screens();
 	}
 
 	void update()
 	{
-
+	/*	screens->states = screens->menu;
+		switch (screens->states)
+		{
+		case screens->menu:
+			break;
+		case screens->gameplay:
+			break;
+		}*/
 	}
 
 	void draw()
 	{
-		BeginDrawing();
-		ClearBackground(BLACK);
-		DrawText("PRUEBA", 560, 300, 50, DARKGREEN);
-		EndDrawing();
+	/*	switch (screens->states)
+		{
+		case screens->menu:
+			DrawText("PRUEBA", 940, 500, 50, MAROON);
+			break;
+		case screens->gameplay:
+			break;
+		}*/
+	}
+
+	void deInit()
+	{
+		if (screens!=NULL)
+		{
+			delete screens;
+		}
 	}
 
 	void executeGame()
@@ -29,8 +53,15 @@ namespace game
 		while (!WindowShouldClose())
 		{
 			update();
+
+			BeginDrawing();
+			ClearBackground(BLACK);
+
 			draw();
+			
+			EndDrawing();
 		}
+		deInit();
 	}
 
 }

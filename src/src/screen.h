@@ -18,6 +18,9 @@ namespace screen
 
 		States states;
 
+		Screens();
+		~Screens();
+
 		void updateMenu();
 		void drawMenu();
 
