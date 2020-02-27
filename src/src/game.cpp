@@ -87,7 +87,7 @@ namespace game
 		gameplayPointLine = new Circle(middleRadius, 640, 360);
 		gameplayDinamicCircle = new Circle(MaxRadius, 640, 360);
 
-		player = new Player();
+		player = new Player(5,0,1);
 
 		createColors();
 
@@ -129,7 +129,22 @@ namespace game
 				CloseWindow();
 			}
 			break;
+
 		case screens->gameplay:
+
+			gameplayDinamicCircle->setRadius(gameplayDinamicCircle->getRadius() - (50.0f*GetFrameTime()));
+
+			if (gameplayDinamicCircle->getRadius() <= initialRadius)
+			{
+				gameplayDinamicCircle->setRadius(MaxRadius);
+			}
+
+			if (IsKeyPressed(KEY_A) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius))
+			{
+				player->setScore(player->getScore() + 1);
+				DrawText("Nice", 200, 100, 50, MAROON);
+			}
+
 			break;
 		}
 	}
