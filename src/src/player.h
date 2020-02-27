@@ -2,11 +2,16 @@
 #define PLAYER_H
 namespace player {
 
-	class player {
+	class Player {
 		int _hp;
 		float _score;
 		float _multiplier;
 	public:
+
+		Player();
+		Player(int hp, float score, float multiplier);
+		~Player();
+
 		void setHP(int hp);
 		int getHP();
 		void setScore(float score);

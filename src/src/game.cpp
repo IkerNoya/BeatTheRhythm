@@ -6,6 +6,7 @@
 
 using namespace screen; 
 using namespace circle;
+using namespace player;
 
 namespace game
 {
@@ -14,6 +15,7 @@ namespace game
 	Screens* screens;
 	Circle* buttons[buttonLimit];
 	Circle* gameplayButton;
+	Player* player;
 
 	Texture menuBackground;
 
@@ -70,7 +72,6 @@ namespace game
 			ClearBackground(BLACK);
 
 			DrawCircleV(gameplayButton->getPos(), gameplayButton->getRadius(), BLUE);
-
 
 			break;
 		}
