@@ -13,6 +13,7 @@ namespace game
 
 	Screens* screens;
 	Circle* buttons[buttonLimit];
+	Circle* gameplayButton;
 
 	Texture menuBackground;
 
@@ -25,6 +26,8 @@ namespace game
 		buttons[0] = new Circle(50, 250, 500);
 		buttons[1] = new Circle(50, 640, 400);
 		buttons[2] = new Circle(50, 1005, 500);
+
+		gameplayButton = new Circle(70, 640, 360);
 
 		menuBackground = LoadTexture("res/raw/menuPNG.png");
 
@@ -63,6 +66,12 @@ namespace game
 
 			break;
 		case screens->gameplay:
+
+			ClearBackground(BLACK);
+
+			DrawCircleV(gameplayButton->getPos(), gameplayButton->getRadius(), BLUE);
+
+
 			break;
 		}
 	}
