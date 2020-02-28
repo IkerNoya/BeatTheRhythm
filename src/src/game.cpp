@@ -154,15 +154,22 @@ namespace game
 			{
 				score+=100;
 				DrawText("Nice", 200, 100, 50, MAROON);
-				colorCounter++;
+				colorCounter ++;
 			}
-			if (colorCounter<=4)
+			if (colorCounter < 4)
 			{
 				changeColor = YELLOW;
 			}
-			if (colorCounter > 4 && colorCounter <= 8)
+			else if (colorCounter >= 4 && colorCounter < 8)
 			{
 				changeColor = GREEN;
+			}
+			else if (colorCounter >= 8 && colorCounter < 12)
+			{
+				changeColor = RED;
+			}
+			if (colorCounter>=12)
+			{
 				colorCounter = 0;
 			}
 
