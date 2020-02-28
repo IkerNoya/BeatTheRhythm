@@ -181,14 +181,14 @@ namespace game
 				scoreMultiplier += 0.5f;
 			}
 
-		/*	if (IsGamepadButtonDown(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_LEFT_FACE_DOWN))
+			if (IsGamepadButtonPressed(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius))
 			{
 				score += 100;
 				DrawText("Nice", 200, 100, 50, MAROON);
 				colorCounter++;
 				multiplier.height += 30;
 				scoreMultiplier += 0.5f;
-			}*/
+			}
 
 			if (multiplier.height>=maxSize)
 			{
