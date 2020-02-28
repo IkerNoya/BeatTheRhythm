@@ -35,7 +35,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{3A818BC4-7494-4247-B82E-9CDEB591A7A4}</ProjectGuid>
     <RootNamespace>beatTheRhythm</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

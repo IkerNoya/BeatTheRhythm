@@ -50,15 +50,15 @@ namespace game
 		centerCirclePlay = { 202 , 219 , 70, 255 };
 		centerLinePlay = { 105 , 117 , 20 , 255 };
 		//-----------instructions------------
-		MiddleCircleInst = { 131 , 184 , 136 , 180 };;
-		BackCircleInst = { 1 , 116 , 10 , 80 };;
+		MiddleCircleInst = { 131 , 184 , 136 , 180 };
+		BackCircleInst = { 1 , 116 , 10 , 80 };
 		centerCircleInst = { 1 , 116 , 10 , 255};
-		centerLineInst = { 7 , 64 , 11 , 255 };;
+		centerLineInst = { 7 , 64 , 11 , 255 };
 		//-----------quit--------------
-		MiddleCircleQuit = { 230 , 151 , 151 , 180 };;
-		BackCircleQuit = { 140 , 17 , 17 , 80 };;
-		centerCircleQuit = { 140 , 17 , 17 , 255 };;
-		centerLineQuit = { 96 , 15 , 15 , 255 };;
+		MiddleCircleQuit = { 230 , 151 , 151 , 180 };
+		BackCircleQuit = { 140 , 17 , 17 , 80 };
+		centerCircleQuit = { 140 , 17 , 17 , 255 };
+		centerLineQuit = { 96 , 15 , 15 , 255 };
 	}
 
 	void init()
