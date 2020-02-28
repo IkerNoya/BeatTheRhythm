@@ -28,7 +28,8 @@ namespace game
 
 	Player* player;
 
-	Texture menuBackground;
+	Texture2D menuBackground;
+	Texture2D title;
 
 	Color MiddleCirclePlay;
 	Color BackCirclePlay;
@@ -44,6 +45,11 @@ namespace game
 	Color BackCircleQuit;
 	Color centerCircleQuit;
 	Color centerLineQuit;
+
+	Color changeColor;
+
+	int score;
+	int colorCounter;
 
 	void createColors()
 	{
@@ -64,7 +70,6 @@ namespace game
 		centerLineQuit = { 96 , 15 , 15 , 255 };
 	}
 
-	int score;
 
 	void init()
 	{
@@ -93,8 +98,11 @@ namespace game
 		score = 0;
 		player->setScore(score);
 		createColors();
+		changeColor = YELLOW;
+		colorCounter = 0;
 
 		menuBackground = LoadTexture("res/raw/menuPNG.png");
+		title = LoadTexture("res/assets/title.png");
 
 	}
 
@@ -146,6 +154,16 @@ namespace game
 			{
 				score+=100;
 				DrawText("Nice", 200, 100, 50, MAROON);
+				colorCounter++;
+			}
+			if (colorCounter<=4)
+			{
+				changeColor = YELLOW;
+			}
+			if (colorCounter > 4 && colorCounter <= 8)
+			{
+				changeColor = GREEN;
+				colorCounter = 0;
 			}
 
 			break;
@@ -160,8 +178,8 @@ namespace game
 			ClearBackground(BLACK);
 
 			DrawTexture(menuBackground, 1, 1, WHITE);
-
-			DrawText("Beat The Rhythm", 300, 70, 80, DARKBLUE);
+			DrawTexture(title, 1, -25, WHITE);
+			
 			DrawText("Play", 200, 360, 50, YELLOW);
 			DrawText("Instructions", 480, 270, 50, DARKGREEN);
 			DrawText("Quit", 950, 360, 50, RED);
@@ -214,7 +232,7 @@ namespace game
 
 			//-------------------------center circles------------------------------
 
-			DrawCircleV(gameplayButton->getPos(), gameplayButton->getRadius(), YELLOW);
+			DrawCircleV(gameplayButton->getPos(), gameplayButton->getRadius(), changeColor);
 			DrawCircleLines(gameplayButton->getPos().x, gameplayButton->getPos().y, gameplayButton->getRadius(), centerLinePlay);
 
 
