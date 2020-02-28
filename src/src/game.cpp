@@ -14,6 +14,8 @@ namespace game
 	const float initialRadius = 50.0f;
 	const float middleRadius = 65.0f;
 	const float MaxRadius = 100.0f;
+	const int maxSize = 380;
+	const float maxMultiplier = 2.0f;
 
 	Screens* screens;
 
@@ -25,8 +27,6 @@ namespace game
 	Circle* pointLine[buttonLimit];
 
 	Circle* dinamicCircle[buttonLimit];
-
-	Player* player;
 
 	Texture2D menuBackground;
 	Texture2D title;
@@ -47,6 +47,9 @@ namespace game
 	Color centerLineQuit;
 
 	Color changeColor;
+
+	Rectangle multiplier;
+
 	enum CurrentColor
 	{
 		red,
@@ -58,6 +61,7 @@ namespace game
 
 	int score;
 	int colorCounter;
+	int scoreMultiplier;
 
 	void createColors()
 	{
@@ -102,9 +106,14 @@ namespace game
 		gameplayPointLine = new Circle(middleRadius, 640, 360);
 		gameplayDinamicCircle = new Circle(MaxRadius, 640, 360);
 
-		player = new Player(3, 0.0f, 1.0f);
+		multiplier.x = 1200;
+		multiplier.y = 80;
+		multiplier.width = 50;
+		multiplier.height = 20;
+
+		scoreMultiplier = 1;
+
 		score = 0;
-		player->setScore(score);
 		createColors();
 		changeColor = YELLOW;
 		colorCounter = 0;
@@ -148,6 +157,8 @@ namespace game
 			{
 				CloseWindow();
 			}
+
+
 			break;
 
 		case screens->gameplay:
@@ -166,7 +177,29 @@ namespace game
 				score+=100;
 				DrawText("Nice", 200, 100, 50, MAROON);
 				colorCounter ++;
+				multiplier.height += 30;
+				scoreMultiplier += 0.5f;
 			}
+
+		/*	if (IsGamepadButtonDown(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_LEFT_FACE_DOWN))
+			{
+				score += 100;
+				DrawText("Nice", 200, 100, 50, MAROON);
+				colorCounter++;
+				multiplier.height += 30;
+				scoreMultiplier += 0.5f;
+			}*/
+
+			if (multiplier.height>=maxSize)
+			{
+				multiplier.height = 380;
+			}
+
+			if (scoreMultiplier >= maxMultiplier)
+			{
+				scoreMultiplier = maxMultiplier;
+			}
+
 			if (colorCounter < 4)
 			{
 				changeColor = YELLOW;
@@ -186,7 +219,6 @@ namespace game
 			{
 				colorCounter = 0;
 			}
-
 			break;
 		}
 	}
@@ -259,8 +291,12 @@ namespace game
 
 			DrawText(TextFormat("Score: %08i", score), 350, 10, 80, BLUE);
 
-			
-			//DrawText("Prueba pantalla B", 550, 360, 50, GREEN);
+			DrawRectangleRec(multiplier, SKYBLUE);
+			DrawText(TextFormat("x %i", scoreMultiplier), multiplier.x-200, 500, 30, GREEN);
+
+
+			if (GetGamepadButtonPressed() != -1) DrawText(FormatText("DETECTED BUTTON: %i", GetGamepadButtonPressed()), 10, 430, 10, RED);
+			else DrawText("DETECTED BUTTON: NONE", 10, 430, 10, GRAY);
 			
 			break;
 		}
@@ -304,11 +340,6 @@ namespace game
 		if (gameplayDinamicCircle!=NULL)
 		{
 			delete gameplayDinamicCircle;
-		}
-
-		if (player != NULL)
-		{
-			delete player;
 		}
 	}
 
