@@ -64,6 +64,8 @@ namespace game
 		centerLineQuit = { 96 , 15 , 15 , 255 };
 	}
 
+	int score;
+
 	void init()
 	{
 		InitWindow(1280, 720, "BeatTheRhythm v0.1");
@@ -87,8 +89,9 @@ namespace game
 		gameplayPointLine = new Circle(middleRadius, 640, 360);
 		gameplayDinamicCircle = new Circle(MaxRadius, 640, 360);
 
-		player = new Player();
-
+		player = new Player(3, 0.0f, 1.0f);
+		score = 0;
+		player->setScore(score);
 		createColors();
 
 		menuBackground = LoadTexture("res/raw/menuPNG.png");
@@ -139,9 +142,9 @@ namespace game
 				gameplayDinamicCircle->setRadius(MaxRadius);
 			}
 
-			if (IsKeyPressed(KEY_A) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius))
+			if (IsKeyPressed(KEY_SPACE) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius))
 			{
-				player->setScore(player->getScore() + 1);
+				score+=100;
 				DrawText("Nice", 200, 100, 50, MAROON);
 			}
 
@@ -215,7 +218,7 @@ namespace game
 			DrawCircleLines(gameplayButton->getPos().x, gameplayButton->getPos().y, gameplayButton->getRadius(), centerLinePlay);
 
 
-			DrawText(TextFormat("Score: %08i", player->getScore()), 350, 10, 80, BLUE);
+			DrawText(TextFormat("Score: %08i", score), 350, 10, 80, BLUE);
 
 			
 			//DrawText("Prueba pantalla B", 550, 360, 50, GREEN);
@@ -245,13 +248,23 @@ namespace game
 
 			if (dinamicCircle[i] != NULL)
 			{
-				delete dinamicCircle;
+				delete dinamicCircle[i];
 			}
 		}
 
 		if (gameplayButton!=NULL)
 		{
 			delete gameplayButton;
+		}
+
+		if (gameplayPointLine!=NULL)
+		{
+			delete gameplayPointLine;
+		}
+
+		if (gameplayDinamicCircle!=NULL)
+		{
+			delete gameplayDinamicCircle;
 		}
 
 		if (player != NULL)
