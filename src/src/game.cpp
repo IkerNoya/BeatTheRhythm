@@ -19,6 +19,9 @@ namespace game
 
 	Circle* buttons[buttonLimit];
 	Circle* gameplayButton;
+	Circle* gameplayPointLine;
+	Circle* gameplayDinamicCircle;
+
 	Circle* pointLine[buttonLimit];
 
 	Circle* dinamicCircle[buttonLimit];
@@ -80,7 +83,11 @@ namespace game
 		dinamicCircle[1] = new Circle(MaxRadius, 640, 430);
 		dinamicCircle[2] = new Circle(MaxRadius, 1005, 530);
 
-		gameplayButton = new Circle(70, 640, 360);
+		gameplayButton = new Circle(initialRadius, 640, 360);
+		gameplayPointLine = new Circle(middleRadius, 640, 360);
+		gameplayDinamicCircle = new Circle(MaxRadius, 640, 360);
+
+		player = new Player();
 
 		createColors();
 
@@ -122,7 +129,22 @@ namespace game
 				CloseWindow();
 			}
 			break;
+
 		case screens->gameplay:
+
+			gameplayDinamicCircle->setRadius(gameplayDinamicCircle->getRadius() - (50.0f*GetFrameTime()));
+
+			if (gameplayDinamicCircle->getRadius() <= initialRadius)
+			{
+				gameplayDinamicCircle->setRadius(MaxRadius);
+			}
+
+			if (IsKeyPressed(KEY_A) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius))
+			{
+				player->setScore(player->getScore() + 1);
+				DrawText("Nice", 200, 100, 50, MAROON);
+			}
+
 			break;
 		}
 	}
@@ -173,14 +195,30 @@ namespace game
 			DrawText("v0.1", 1200, 680, 30, BLACK);
 
 			break;
+
 		case screens->gameplay:
 
 			ClearBackground(BLACK);
 
-			DrawCircleV(gameplayButton->getPos(), gameplayButton->getRadius(), BLUE);
+			//-------------------------dinamic circles-----------------------------
+
+			DrawCircleV(gameplayDinamicCircle->getPos(), gameplayDinamicCircle->getRadius(), BackCirclePlay);
+			DrawCircleLines(gameplayDinamicCircle->getPos().x, gameplayDinamicCircle->getPos().y, gameplayDinamicCircle->getRadius(), BLACK);
+
+			//-------------------------middle circle--------------------------------------
+
+			DrawCircleV(gameplayPointLine->getPos(), gameplayPointLine->getRadius(), MiddleCirclePlay);
+
+			//-------------------------center circles------------------------------
+
+			DrawCircleV(gameplayButton->getPos(), gameplayButton->getRadius(), YELLOW);
+			DrawCircleLines(gameplayButton->getPos().x, gameplayButton->getPos().y, gameplayButton->getRadius(), centerLinePlay);
+
+
+			DrawText(TextFormat("Score: %08i", player->getScore()), 350, 10, 80, BLUE);
 
 			
-			DrawText("Prueba pantalla B", 550, 360, 50, GREEN);
+			//DrawText("Prueba pantalla B", 550, 360, 50, GREEN);
 			
 			break;
 		}
@@ -191,6 +229,34 @@ namespace game
 		if (screens!=NULL)
 		{
 			delete screens;
+		}
+
+		for (int i = 0; i < buttonLimit; i++)
+		{
+			if(buttons[i]!=NULL)
+			{
+				delete buttons[i];
+			}
+
+			if (pointLine[i] != NULL)
+			{
+				delete pointLine[i];
+			}
+
+			if (dinamicCircle[i] != NULL)
+			{
+				delete dinamicCircle;
+			}
+		}
+
+		if (gameplayButton!=NULL)
+		{
+			delete gameplayButton;
+		}
+
+		if (player != NULL)
+		{
+			delete player;
 		}
 	}
 

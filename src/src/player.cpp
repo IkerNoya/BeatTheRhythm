@@ -9,6 +9,13 @@ namespace player
 		_multiplier = 1;
 	}
 
+	Player::Player(int hp, float score, float multiplier)
+	{
+		_hp = hp;
+		_score = score;
+		_multiplier = multiplier;
+	}
+
 	Player::~Player()
 	{
 
