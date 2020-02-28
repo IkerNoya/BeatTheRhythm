@@ -47,6 +47,14 @@ namespace game
 	Color centerLineQuit;
 
 	Color changeColor;
+	enum CurrentColor
+	{
+		red,
+		yellow,
+		green,
+	};
+
+	int currentColor;
 
 	int score;
 	int colorCounter;
@@ -100,6 +108,7 @@ namespace game
 		createColors();
 		changeColor = YELLOW;
 		colorCounter = 0;
+		currentColor = yellow;
 
 		menuBackground = LoadTexture("res/raw/menuPNG.png");
 		title = LoadTexture("res/assets/title.png");
@@ -150,7 +159,9 @@ namespace game
 				gameplayDinamicCircle->setRadius(MaxRadius);
 			}
 
-			if (IsKeyPressed(KEY_SPACE) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius))
+			if (IsKeyPressed(KEY_A) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius)&& currentColor==yellow
+				|| IsKeyPressed(KEY_S) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == green
+				|| IsKeyPressed(KEY_D) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == red)
 			{
 				score+=100;
 				DrawText("Nice", 200, 100, 50, MAROON);
@@ -159,14 +170,17 @@ namespace game
 			if (colorCounter < 4)
 			{
 				changeColor = YELLOW;
+				currentColor = yellow;
 			}
 			else if (colorCounter >= 4 && colorCounter < 8)
 			{
 				changeColor = GREEN;
+				currentColor = green;
 			}
 			else if (colorCounter >= 8 && colorCounter < 12)
 			{
 				changeColor = RED;
+				currentColor = red;
 			}
 			if (colorCounter>=12)
 			{
