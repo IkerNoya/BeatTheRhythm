@@ -15,7 +15,7 @@ namespace game
 	const float middleRadius = 65.0f;
 	const float MaxRadius = 100.0f;
 	const int maxSize = 380;
-	const float maxMultiplier = 2.0f;
+	const float maxMultiplier = 3.0f;
 
 	Screens* screens;
 
@@ -61,7 +61,8 @@ namespace game
 
 	int score;
 	int colorCounter;
-	int scoreMultiplier;
+	float scoreMultiplier;
+	bool pointGet;
 
 	void createColors()
 	{
@@ -112,6 +113,7 @@ namespace game
 		multiplier.height = 20;
 
 		scoreMultiplier = 1;
+		pointGet = false;
 
 		score = 0;
 		createColors();
@@ -167,27 +169,52 @@ namespace game
 
 			if (gameplayDinamicCircle->getRadius() <= initialRadius)
 			{
+				if (pointGet==false)
+				{
+					multiplier.height = 20.0f;
+					scoreMultiplier = 1;
+				}
+
 				gameplayDinamicCircle->setRadius(MaxRadius);
+				pointGet = false;
 			}
 
 			if (IsKeyPressed(KEY_A) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius)&& currentColor==yellow
 				|| IsKeyPressed(KEY_S) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == green
 				|| IsKeyPressed(KEY_D) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == red)
 			{
-				score+=100;
+				score += 100 * scoreMultiplier;
 				DrawText("Nice", 200, 100, 50, MAROON);
 				colorCounter ++;
-				multiplier.height += 30;
-				scoreMultiplier += 0.5f;
+				multiplier.height += 47.5;
+				scoreMultiplier += 0.25f;
+				pointGet = true;
+			}
+
+			if (IsKeyPressed(KEY_A) && (gameplayDinamicCircle->getRadius() > middleRadius)
+				|| IsKeyPressed(KEY_S) && (gameplayDinamicCircle->getRadius() > middleRadius)
+				|| IsKeyPressed(KEY_D) && (gameplayDinamicCircle->getRadius() > middleRadius))
+			{
+				multiplier.height = 20.0f;
+				scoreMultiplier = 1;
+			}
+
+			if (currentColor==yellow&& IsKeyPressed(KEY_S) || currentColor == yellow && IsKeyPressed(KEY_D)
+				|| currentColor == green && IsKeyPressed(KEY_A) || currentColor == green && IsKeyPressed(KEY_D)
+				|| currentColor == red && IsKeyPressed(KEY_A) || currentColor == red && IsKeyPressed(KEY_S))
+			{
+				multiplier.height = 20.0f;
+				scoreMultiplier = 1;
 			}
 
 			if (IsGamepadButtonPressed(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius))
 			{
-				score += 100;
+				score += 100 * scoreMultiplier;
 				DrawText("Nice", 200, 100, 50, MAROON);
 				colorCounter++;
 				multiplier.height += 30;
-				scoreMultiplier += 0.5f;
+				scoreMultiplier += 0.25f;
+				pointGet = true;
 			}
 
 			if (multiplier.height>=maxSize)
