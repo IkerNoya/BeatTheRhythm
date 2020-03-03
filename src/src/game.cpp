@@ -379,7 +379,7 @@ namespace game
 			DrawText(TextFormat("Score: %08i", score), 350, 10, 80, BLUE);
 
 			DrawRectangleRec(multiplier, SKYBLUE);
-			DrawText(TextFormat("x %i", scoreMultiplier), multiplier.x-200, 550, 50, GREEN);
+			DrawText(TextFormat("x %02.02f", scoreMultiplier), multiplier.x-200, 550, 50, GREEN);
 			
 			if (healthPoints>0)
 			{
