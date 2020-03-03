@@ -89,7 +89,7 @@ namespace game
 
 	void init()
 	{
-		InitWindow(1280, 720, "BeatTheRhythm v0.1");
+		InitWindow(1280, 720, "BeatTheRhythm v0.3");
 
 		screens = new Screens();
 		screens->states = screens->menu;
@@ -322,7 +322,7 @@ namespace game
 			DrawCircleLines(buttons[2]->getX(), buttons[2]->getY(), buttons[2]->getRadius(), centerLineQuit);
 
 
-			DrawText("v0.1", 1200, 680, 30, BLACK);
+			DrawText("v0.3", 1200, 680, 30, BLACK);
 
 			break;
 
