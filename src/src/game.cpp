@@ -207,7 +207,6 @@ namespace game
 				|| IsKeyPressed(KEY_D) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == red)
 			{
 				score += 100 * scoreMultiplier;
-				DrawText("Nice", 200, 100, 50, MAROON);
 				colorCounter++;
 				multiplier.height += 47.5;
 				scoreMultiplier += 0.25f;
@@ -284,6 +283,7 @@ namespace game
 				screens->states = screens->menu;
 				healthPoints = 10;
 				score = 0;
+				colorCounter = 0;
 			}
 
 			if (winCounter >= winningHits)
@@ -293,6 +293,7 @@ namespace game
 				scoreMultiplier = 1.0f;
 				multiplier.height = 20;
 				score = 0;
+				colorCounter = 0;
 			}
 
 			break;
