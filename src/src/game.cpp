@@ -64,6 +64,8 @@ namespace game
 	int colorCounter;
 	float scoreMultiplier;
 	bool pointGet;
+	int healthPoints;
+	int healthUpLimit;
 
 	int winCounter;
 
@@ -123,6 +125,8 @@ namespace game
 		changeColor = YELLOW;
 		colorCounter = 0;
 		currentColor = yellow;
+		healthPoints = 10;
+		healthUpLimit = 3000;
 		winCounter = 0;
 
 		menuBackground = LoadTexture("res/raw/menuPNG.png");
@@ -191,6 +195,7 @@ namespace game
 				{
 					multiplier.height = 20.0f;
 					scoreMultiplier = 1;
+					healthPoints--;
 				}
 
 				gameplayDinamicCircle->setRadius(MaxRadius);
@@ -216,6 +221,7 @@ namespace game
 			{
 				multiplier.height = 20.0f;
 				scoreMultiplier = 1;
+				healthPoints--;
 			}
 
 			if (currentColor==yellow&& IsKeyPressed(KEY_S) || currentColor == yellow && IsKeyPressed(KEY_D)
@@ -224,6 +230,7 @@ namespace game
 			{
 				multiplier.height = 20.0f;
 				scoreMultiplier = 1;
+				healthPoints--;
 			}
 
 			if (IsGamepadButtonPressed(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius))
@@ -264,6 +271,19 @@ namespace game
 			if (colorCounter>=12)
 			{
 				colorCounter = 0;
+			}
+
+			if (score>healthUpLimit && healthPoints<10)
+			{
+				healthPoints++;
+				healthUpLimit += 3000;
+			}
+
+			if (healthPoints<0)
+			{
+				screens->states = screens->menu;
+				healthPoints = 10;
+				score = 0;
 			}
 
 			if (winCounter >= winningHits)
@@ -356,7 +376,17 @@ namespace game
 			DrawText(TextFormat("Score: %08i", score), 350, 10, 80, BLUE);
 
 			DrawRectangleRec(multiplier, SKYBLUE);
-			DrawText(TextFormat("x %i", scoreMultiplier), multiplier.x-200, 500, 30, GREEN);
+			DrawText(TextFormat("x %i", scoreMultiplier), multiplier.x-200, 550, 50, GREEN);
+			
+			if (healthPoints>0)
+			{
+				DrawText(TextFormat("HP:  %i", healthPoints), 20, 550, 50, RED);
+			}
+			else
+			{
+				DrawText ("LAST CHANCE!!!", 20, 550, 55, RED);
+			}
+			
 
 #ifdef EXTRA_INFO
 			if (GetGamepadButtonPressed() != -1)
