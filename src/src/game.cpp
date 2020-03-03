@@ -30,6 +30,8 @@ namespace game
 	Circle* dinamicCircle[buttonLimit];
 
 	Texture2D menuBackground;
+	Image charT;
+	Texture2D charTest;
 	Texture2D title;
 
 	Color MiddleCirclePlay;
@@ -92,6 +94,7 @@ namespace game
 	void init()
 	{
 		InitWindow(1280, 720, "BeatTheRhythm v0.3");
+		ToggleFullscreen();
 
 		screens = new Screens();
 		screens->states = screens->menu;
@@ -130,6 +133,9 @@ namespace game
 		winCounter = 0;
 
 		menuBackground = LoadTexture("res/assets/background.png");
+		charT = LoadImage("res/assets/test.png");
+		ImageResize(&charT, 200, 200);
+		charTest = LoadTextureFromImage(charT);
 		title = LoadTexture("res/assets/title.png");
 
 	}
@@ -307,9 +313,14 @@ namespace game
 		case screens->menu:
 			ClearBackground(BLACK);
 
+			Rectangle test;
+			test.x = 600;
+			test.y = 250;
+			test.width = 80;
+			test.height = 80;
 			DrawTexture(menuBackground, 1, 1, WHITE);
 			DrawTexture(title, 1, -25, WHITE);
-			
+			DrawTexture(charTest, 320, 80, WHITE);
 			DrawText("Play", 200, 360, 50, YELLOW);
 			DrawText("Instructions", 480, 270, 50, DARKGREEN);
 			DrawText("Quit", 950, 360, 50, RED);
@@ -428,6 +439,7 @@ namespace game
 			{
 				delete dinamicCircle[i];
 			}
+			UnloadTexture(charTest);
 		}
 
 		if (gameplayButton!=NULL)
