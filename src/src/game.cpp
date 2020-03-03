@@ -129,7 +129,7 @@ namespace game
 		healthUpLimit = 3000;
 		winCounter = 0;
 
-		menuBackground = LoadTexture("res/raw/menuPNG.png");
+		menuBackground = LoadTexture("res/assets/background.png");
 		title = LoadTexture("res/assets/title.png");
 
 	}
@@ -312,7 +312,9 @@ namespace game
 			DrawText("Play", 200, 360, 50, YELLOW);
 			DrawText("Instructions", 480, 270, 50, DARKGREEN);
 			DrawText("Quit", 950, 360, 50, RED);
-			
+
+			DrawText("Game Designer - Delgado, Federico    Game Artists - Migliavacca, Sofia       Game Programmers - Noya, Iker", 50, 630, 20, BLACK);
+			DrawText("                                                   Regues Garcia, Sofia                              Blanco, Juan Simon", 190, 660, 20, BLACK);
 
 			//-------------------------dinamic circles-----------------------
 			DrawCircleV(dinamicCircle[0]->getPos(), dinamicCircle[0]->getRadius(), BackCirclePlay);
