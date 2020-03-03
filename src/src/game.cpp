@@ -16,6 +16,7 @@ namespace game
 	const float MaxRadius = 100.0f;
 	const int maxSize = 380;
 	const float maxMultiplier = 3.0f;
+	const int winningHits = 36;
 
 	Screens* screens;
 
@@ -63,6 +64,8 @@ namespace game
 	int colorCounter;
 	float scoreMultiplier;
 	bool pointGet;
+
+	int winCounter;
 
 	void createColors()
 	{
@@ -120,6 +123,7 @@ namespace game
 		changeColor = YELLOW;
 		colorCounter = 0;
 		currentColor = yellow;
+		winCounter = 0;
 
 		menuBackground = LoadTexture("res/raw/menuPNG.png");
 		title = LoadTexture("res/assets/title.png");
@@ -136,7 +140,7 @@ namespace game
 			dinamicCircle[1]->setRadius(dinamicCircle[1]->getRadius() - (50.0f*GetFrameTime()));
 			dinamicCircle[2]->setRadius(dinamicCircle[2]->getRadius() - (50.0f*GetFrameTime()));
 
-			if (dinamicCircle[0]->getRadius()<=initialRadius)
+			if (dinamicCircle[0]->getRadius() <= initialRadius)
 			{
 				dinamicCircle[0]->setRadius(MaxRadius);
 			}
@@ -155,12 +159,26 @@ namespace game
 			{
 				screens->states = screens->gameplay;
 			}
+			if (IsKeyPressed(KEY_S) && (dinamicCircle[2]->getRadius() <= middleRadius && dinamicCircle[2]->getRadius() > initialRadius))
+			{
+				screens->states = screens->instructions;
+			}
 			if (IsKeyPressed(KEY_D) && (dinamicCircle[2]->getRadius() <= middleRadius && dinamicCircle[2]->getRadius() > initialRadius))
 			{
 				CloseWindow();
 			}
 
 
+			break;
+
+		case screens->instructions:
+			if (IsKeyPressed(KEY_ENTER))
+			{
+				screens->states = screens->menu;
+				dinamicCircle[0]->setRadius(MaxRadius);
+				dinamicCircle[1]->setRadius(MaxRadius);
+				dinamicCircle[2]->setRadius(MaxRadius);
+			}
 			break;
 
 		case screens->gameplay:
@@ -179,16 +197,17 @@ namespace game
 				pointGet = false;
 			}
 
-			if (IsKeyPressed(KEY_A) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius)&& currentColor==yellow
+			if (IsKeyPressed(KEY_A) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == yellow
 				|| IsKeyPressed(KEY_S) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == green
 				|| IsKeyPressed(KEY_D) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == red)
 			{
 				score += 100 * scoreMultiplier;
 				DrawText("Nice", 200, 100, 50, MAROON);
-				colorCounter ++;
+				colorCounter++;
 				multiplier.height += 47.5;
 				scoreMultiplier += 0.25f;
 				pointGet = true;
+				winCounter++;
 			}
 
 			if (IsKeyPressed(KEY_A) && (gameplayDinamicCircle->getRadius() > middleRadius)
@@ -246,6 +265,16 @@ namespace game
 			{
 				colorCounter = 0;
 			}
+
+			if (winCounter >= winningHits)
+			{
+				screens->states = screens->menu;
+				winCounter = 0;
+				scoreMultiplier = 1.0f;
+				multiplier.height = 20;
+				score = 0;
+			}
+
 			break;
 		}
 	}
@@ -297,6 +326,14 @@ namespace game
 
 			break;
 
+		case screens->instructions:
+			ClearBackground(BLACK);
+			DrawText("Press A when the color is yellow", 300, 200, 40, YELLOW);
+			DrawText("Press S when the color is green", 300, 300, 40, GREEN);
+			DrawText("Press D when the color is red", 300, 400, 40, RED);
+			DrawText("press ENTER to go back", 450, 600, 30, WHITE);
+			break;
+
 		case screens->gameplay:
 
 			ClearBackground(BLACK);
@@ -321,9 +358,15 @@ namespace game
 			DrawRectangleRec(multiplier, SKYBLUE);
 			DrawText(TextFormat("x %i", scoreMultiplier), multiplier.x-200, 500, 30, GREEN);
 
+#ifdef EXTRA_INFO
+			if (GetGamepadButtonPressed() != -1)
+				DrawText(FormatText("DETECTED BUTTON: %i", GetGamepadButtonPressed()), 10, 430, 10, RED);
+			else 
+				DrawText("DETECTED BUTTON: NONE", 10, 430, 10, GRAY);
+			DrawText(TextFormat("winCounter: %i", winCounter), 10, 480, 20, RED);
 
-			if (GetGamepadButtonPressed() != -1) DrawText(FormatText("DETECTED BUTTON: %i", GetGamepadButtonPressed()), 10, 430, 10, RED);
-			else DrawText("DETECTED BUTTON: NONE", 10, 430, 10, GRAY);
+#endif // EXTRA_INFO
+
 			
 			break;
 		}

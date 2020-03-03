@@ -10,6 +10,7 @@ namespace screen
 		enum States
 		{
 			menu,
+			instructions,
 			loading,
 			gameplay,
 			result,
