@@ -11,7 +11,6 @@ namespace screen
 		{
 			menu,
 			instructions,
-			loading,
 			gameplay,
 			result,
 			credits
@@ -22,11 +21,13 @@ namespace screen
 		Screens();
 		~Screens();
 
+		void initData();
+
 		void updateMenu();
 		void drawMenu();
 
-		void updateLoading();
-		void drawLoading();
+		void updateInstructions();
+		void drawInstructions();
 
 		void updateGameplay();
 		void drawGameplay();
