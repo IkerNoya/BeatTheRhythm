@@ -26,6 +26,7 @@ namespace screen
 	Circle* dinamicCircle[buttonLimit];
 
 	Texture2D menuBackground;
+	Texture2D gameBackground;
 	Image charT;
 	Texture2D charTest;
 	Texture2D title;
@@ -111,7 +112,6 @@ namespace screen
 			{
 				delete dinamicCircle[i];
 			}
-			UnloadTexture(charTest);
 		}
 
 		if (gameplayButton != NULL)
@@ -128,6 +128,11 @@ namespace screen
 		{
 			delete gameplayDinamicCircle;
 		}
+
+		UnloadTexture(charTest);
+		UnloadTexture(title);
+		UnloadTexture(gameBackground);
+		UnloadImage(charT);
 	}
 
 	void Screens::initData()
@@ -142,9 +147,9 @@ namespace screen
 		dinamicCircle[0] = new Circle(MaxRadius, 435, 500);
 		dinamicCircle[1] = new Circle(MaxRadius, 800, 500);
 
-		gameplayButton = new Circle(initialRadius, 640, 360);
-		gameplayPointLine = new Circle(middleRadius, 640, 360);
-		gameplayDinamicCircle = new Circle(MaxRadius, 640, 360);
+		gameplayButton = new Circle(initialRadius, 670, 500);
+		gameplayPointLine = new Circle(middleRadius, 670, 500);
+		gameplayDinamicCircle = new Circle(MaxRadius, 670, 500);
 
 		multiplier.x = 1200;
 		multiplier.y = 80;
@@ -163,7 +168,8 @@ namespace screen
 		healthUpLimit = 3000;
 		winCounter = 0;
 
-		menuBackground = LoadTexture("res/assets/background.png");
+		menuBackground = LoadTexture("res/assets/PixBackground.png");
+		gameBackground = LoadTexture("res/assets/PixBackground.png");
 		charT = LoadImage("res/assets/test.png");
 		ImageResize(&charT, 200, 200);
 		charTest = LoadTextureFromImage(charT);
@@ -233,7 +239,7 @@ namespace screen
 		DrawCircleLines(buttons[1]->getX(), buttons[1]->getY(), buttons[1]->getRadius(), centerLineInst);
 
 
-		DrawText("v0.3", 1200, 680, 30, BLACK);
+		DrawText("v0.4", 1200, 680, 30, BLACK);
 
 	}
 
@@ -369,6 +375,8 @@ namespace screen
 	{
 		ClearBackground(BLACK);
 
+		DrawTexture(gameBackground, 1, 1, WHITE);
+
 		//-------------------------dinamic circles-----------------------------
 
 		DrawCircleV(gameplayDinamicCircle->getPos(), gameplayDinamicCircle->getRadius(), BackCirclePlay);
@@ -385,6 +393,7 @@ namespace screen
 
 
 		DrawText(TextFormat("Score: %08i", score), 350, 10, 80, BLUE);
+
 
 		DrawRectangleRec(multiplier, SKYBLUE);
 		DrawText(TextFormat("x %02.02f", scoreMultiplier), multiplier.x - 200, 550, 50, GREEN);
