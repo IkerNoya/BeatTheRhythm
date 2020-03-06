@@ -335,7 +335,20 @@ namespace screen
 			healthPoints--;
 		}
 
-		if (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && buttonRelease == false)
+		if (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == yellow && buttonRelease == false
+			|| (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == green && buttonRelease == false
+			|| (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_UP) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == red && buttonRelease == false)))
+		{
+			score += 100 * scoreMultiplier;
+			colorCounter++;
+			multiplier.height += 47.5;
+			scoreMultiplier += 0.25f;
+			pointGet = true;
+			winCounter++;
+			buttonRelease = true;
+		}
+
+	/*	if (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && buttonRelease == false)
 		{
 			score += 100 * scoreMultiplier;
 			colorCounter++;
@@ -362,7 +375,7 @@ namespace screen
 			multiplier.height += 30;
 			scoreMultiplier += 0.25f;
 			pointGet = true;
-		}
+		}*/
 		if (multiplier.height >= maxSize)
 		{
 			multiplier.height = 380;
