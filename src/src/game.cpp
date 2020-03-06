@@ -10,8 +10,8 @@ namespace game
 
 	void init()
 	{
-		InitWindow(1280, 720, "BeatTheRhythm v0.4");
-		//ToggleFullscreen();
+		InitWindow(1280, 720, "BeatTheRhythm v0.5");
+		ToggleFullscreen();
 		screens = new Screens();
 		screens->initData();
 		screens->states = screens->instructions;

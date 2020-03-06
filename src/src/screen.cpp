@@ -194,7 +194,7 @@ namespace screen
 
 	void Screens::updateMenu() 
 	{
-		
+		buttonRelease = false; 
 		/*fadeCounter -= 100 * GetFrameTime();
 		fadeScreen = { 0, 0, 0, fadeCounter };*/
 		dinamicCircle[0]->setRadius(dinamicCircle[0]->getRadius() - (50.0f*GetFrameTime()));
@@ -214,7 +214,15 @@ namespace screen
 		{
 			states = gameplay;
 		}
+		if (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && (dinamicCircle[0]->getRadius() <= middleRadius && dinamicCircle[0]->getRadius() > initialRadius))
+		{
+			states = gameplay;
+		}
 		if (IsKeyPressed(KEY_S) && (dinamicCircle[1]->getRadius() <= middleRadius && dinamicCircle[1]->getRadius() > initialRadius))
+		{
+			states = instructions;
+		}
+		if (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT) && (dinamicCircle[0]->getRadius() <= middleRadius && dinamicCircle[0]->getRadius() > initialRadius))
 		{
 			states = instructions;
 		}
@@ -265,7 +273,7 @@ namespace screen
 		else
 			DrawText("DETECTED BUTTON: NONE", 10, 430, 10, RED);
 
-		DrawText("v0.4", 1200, 680, 30, BLACK);
+		DrawText("v0.5", 1200, 680, 30, BLACK);
 #endif //EXTRA_INFO
 	}
 
@@ -348,34 +356,6 @@ namespace screen
 			buttonRelease = true;
 		}
 
-	/*	if (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && buttonRelease == false)
-		{
-			score += 100 * scoreMultiplier;
-			colorCounter++;
-			multiplier.height += 30;
-			scoreMultiplier += 0.25f;
-			pointGet = true;
-			buttonRelease = true;
-		}
-
-		if (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && buttonRelease == false)
-		{
-			score += 100 * scoreMultiplier;
-			colorCounter++;
-			multiplier.height += 30;
-			scoreMultiplier += 0.25f;
-			pointGet = true;
-			buttonRelease = true;
-		}
-
-		if (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_UP) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && buttonRelease == false)
-		{
-			score += 100 * scoreMultiplier;
-			colorCounter++;
-			multiplier.height += 30;
-			scoreMultiplier += 0.25f;
-			pointGet = true;
-		}*/
 		if (multiplier.height >= maxSize)
 		{
 			multiplier.height = 380;
