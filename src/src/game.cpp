@@ -10,7 +10,7 @@ using namespace player;
 
 namespace game
 {
-	const int buttonLimit = 3;
+	const int buttonLimit = 2;
 	const float initialRadius = 50.0f;
 	const float middleRadius = 65.0f;
 	const float MaxRadius = 100.0f;
@@ -94,22 +94,19 @@ namespace game
 	void init()
 	{
 		InitWindow(1280, 720, "BeatTheRhythm v0.3");
-		ToggleFullscreen();
+		//ToggleFullscreen();
 
 		screens = new Screens();
-		screens->states = screens->menu;
+		screens->states = screens->instructions;
 
-		buttons[0] = new Circle(initialRadius, 250, 530);
-		buttons[1] = new Circle(initialRadius, 640, 430);
-		buttons[2] = new Circle(initialRadius, 1005, 530);
+		buttons[0] = new Circle(initialRadius, 435, 500);
+		buttons[1] = new Circle(initialRadius, 800, 500);
 
-		pointLine[0] = new Circle(middleRadius, 250, 530);
-		pointLine[1] = new Circle(middleRadius, 640, 430);
-		pointLine[2] = new Circle(middleRadius, 1005, 530);
+		pointLine[0] = new Circle(middleRadius, 435, 500);
+		pointLine[1] = new Circle(middleRadius, 800, 500);
 
-		dinamicCircle[0] = new Circle(MaxRadius, 250, 530);
-		dinamicCircle[1] = new Circle(MaxRadius, 640, 430);
-		dinamicCircle[2] = new Circle(MaxRadius, 1005, 530);
+		dinamicCircle[0] = new Circle(MaxRadius, 435, 500);
+		dinamicCircle[1] = new Circle(MaxRadius, 800, 500);
 
 		gameplayButton = new Circle(initialRadius, 640, 360);
 		gameplayPointLine = new Circle(middleRadius, 640, 360);
@@ -148,7 +145,6 @@ namespace game
 
 			dinamicCircle[0]->setRadius(dinamicCircle[0]->getRadius() - (50.0f*GetFrameTime()));
 			dinamicCircle[1]->setRadius(dinamicCircle[1]->getRadius() - (50.0f*GetFrameTime()));
-			dinamicCircle[2]->setRadius(dinamicCircle[2]->getRadius() - (50.0f*GetFrameTime()));
 
 			if (dinamicCircle[0]->getRadius() <= initialRadius)
 			{
@@ -160,22 +156,13 @@ namespace game
 				dinamicCircle[1]->setRadius(MaxRadius);
 			}
 
-			if (dinamicCircle[2]->getRadius() <= initialRadius)
-			{
-				dinamicCircle[2]->setRadius(MaxRadius);
-			}
-
 			if (IsKeyPressed(KEY_A) && (dinamicCircle[0]->getRadius() <= middleRadius && dinamicCircle[0]->getRadius() > initialRadius))
 			{
 				screens->states = screens->gameplay;
 			}
-			if (IsKeyPressed(KEY_S) && (dinamicCircle[2]->getRadius() <= middleRadius && dinamicCircle[2]->getRadius() > initialRadius))
+			if (IsKeyPressed(KEY_S) && (dinamicCircle[1]->getRadius() <= middleRadius && dinamicCircle[1]->getRadius() > initialRadius))
 			{
 				screens->states = screens->instructions;
-			}
-			if (IsKeyPressed(KEY_D) && (dinamicCircle[2]->getRadius() <= middleRadius && dinamicCircle[2]->getRadius() > initialRadius))
-			{
-				CloseWindow();
 			}
 
 
@@ -187,7 +174,6 @@ namespace game
 				screens->states = screens->menu;
 				dinamicCircle[0]->setRadius(MaxRadius);
 				dinamicCircle[1]->setRadius(MaxRadius);
-				dinamicCircle[2]->setRadius(MaxRadius);
 			}
 			break;
 
@@ -241,7 +227,6 @@ namespace game
 			if (IsGamepadButtonPressed(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius))
 			{
 				score += 100 * scoreMultiplier;
-				DrawText("Nice", 200, 100, 50, MAROON);
 				colorCounter++;
 				multiplier.height += 30;
 				scoreMultiplier += 0.25f;
@@ -321,9 +306,8 @@ namespace game
 			DrawTexture(menuBackground, 1, 1, WHITE);
 			DrawTexture(title, 1, -25, WHITE);
 			DrawTexture(charTest, 320, 80, WHITE);
-			DrawText("Play", 200, 360, 50, YELLOW);
-			DrawText("Instructions", 480, 270, 50, DARKGREEN);
-			DrawText("Quit", 950, 360, 50, RED);
+			DrawText("Play", 380, 330, 50, YELLOW);
+			DrawText("Instructions", 650, 330, 50, DARKGREEN);
 
 			DrawText("Game Designer - Delgado, Federico    Game Artists - Migliavacca, Sofia       Game Programmers - Noya, Iker", 50, 630, 20, BLACK);
 			DrawText("                                                   Regues Garcia, Sofia                              Blanco, Juan Simon", 190, 660, 20, BLACK);
@@ -335,14 +319,10 @@ namespace game
 			DrawCircleV(dinamicCircle[1]->getPos(), dinamicCircle[1]->getRadius(), BackCircleInst);
 			DrawCircleLines(dinamicCircle[1]->getX(), dinamicCircle[1]->getY(), dinamicCircle[1]->getRadius(), BLACK);
 
-			DrawCircleV(dinamicCircle[2]->getPos(), dinamicCircle[2]->getRadius(), BackCircleQuit);
-			DrawCircleLines(dinamicCircle[2]->getX(), dinamicCircle[2]->getY(), dinamicCircle[2]->getRadius(), BLACK);
-
 
 			//-------------------------middle circle--------------------------------------
 			DrawCircleV(pointLine[0]->getPos(), pointLine[0]->getRadius(), MiddleCirclePlay);
 			DrawCircleV(pointLine[1]->getPos(), pointLine[1]->getRadius(), MiddleCircleInst);
-			DrawCircleV(pointLine[2]->getPos(), pointLine[2]->getRadius(), MiddleCircleQuit);
 			
 
 			//-------------------------center circles------------------------------
@@ -351,9 +331,6 @@ namespace game
 			
 			DrawCircleV(buttons[1]->getPos(), buttons[1]->getRadius(), centerCircleInst);
 			DrawCircleLines(buttons[1]->getX(), buttons[1]->getY(), buttons[1]->getRadius(), centerLineInst);
-			
-			DrawCircleV(buttons[2]->getPos(), buttons[2]->getRadius(), RED);
-			DrawCircleLines(buttons[2]->getX(), buttons[2]->getY(), buttons[2]->getRadius(), centerLineQuit);
 
 
 			DrawText("v0.3", 1200, 680, 30, BLACK);
