@@ -1,13 +1,13 @@
 # BeatTheRythm
 ## Game Designer: 
-####  &emsp;&emsp; Federico Delgado  
+####  Federico Delgado  
 
 ## Artist:
-####  &emsp;&emsp; Sofia Migliavacca  
+####  Sofia Migliavacca  
 
-####  &emsp;&emsp; Sofia Regues Garcia  
+####  Sofia Regues Garcia  
 
 ## Programmers:
-####  &emsp;&emsp; Juan Simon Blanco  
+####  Juan Simon Blanco  
 
-####  &emsp;&emsp; Iker Noya  
+####  Iker Noya  
