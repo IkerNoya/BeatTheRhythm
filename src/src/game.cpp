@@ -15,8 +15,6 @@ namespace game
 		screens = new Screens();
 		screens->initData();
 		screens->states = screens->instructions;
-
-
 	}
 
 	void update()

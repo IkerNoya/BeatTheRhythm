@@ -6,6 +6,7 @@ using namespace circle;
 
 namespace screen
 {
+
 	const int buttonLimit = 2;
 	const float initialRadius = 50.0f;
 	const float middleRadius = 65.0f;
@@ -48,7 +49,10 @@ namespace screen
 
 	Color changeColor;
 
+	Color fadeScreen;
+
 	Rectangle multiplier;
+	Rectangle fade;
 
 	enum CurrentColor
 	{
@@ -67,8 +71,10 @@ namespace screen
 	int healthUpLimit;
 
 	int winCounter;
+	int fadeCounter;
 
-
+	bool buttonRelease;
+	
 	void createColors()
 	{
 		//---------play---------------------
@@ -86,6 +92,8 @@ namespace screen
 		BackCircleQuit = { 140 , 17 , 17 , 80 };
 		centerCircleQuit = { 140 , 17 , 17 , 255 };
 		centerLineQuit = { 96 , 15 , 15 , 255 };
+		//-----------fade---------------
+		
 	}
 
 
@@ -167,17 +175,28 @@ namespace screen
 		healthPoints = 10;
 		healthUpLimit = 3000;
 		winCounter = 0;
+		fadeCounter = 255;
 
-		menuBackground = LoadTexture("res/assets/PixBackground.png");
-		gameBackground = LoadTexture("res/assets/PixBackground.png");
+		fade.x = 1;
+		fade.y = 1;
+		fade.x = 1280;
+		fade.x = 720;
+
+		menuBackground = LoadTexture("res/assets/colorBack.jpg");
+		gameBackground = LoadTexture("res/assets/gameBack.png");
 		charT = LoadImage("res/assets/test.png");
 		ImageResize(&charT, 200, 200);
 		charTest = LoadTextureFromImage(charT);
 		title = LoadTexture("res/assets/title.png");
+
+		buttonRelease = false;
 	}
 
 	void Screens::updateMenu() 
 	{
+		
+		/*fadeCounter -= 100 * GetFrameTime();
+		fadeScreen = { 0, 0, 0, fadeCounter };*/
 		dinamicCircle[0]->setRadius(dinamicCircle[0]->getRadius() - (50.0f*GetFrameTime()));
 		dinamicCircle[1]->setRadius(dinamicCircle[1]->getRadius() - (50.0f*GetFrameTime()));
 
@@ -238,9 +257,16 @@ namespace screen
 		DrawCircleV(buttons[1]->getPos(), buttons[1]->getRadius(), centerCircleInst);
 		DrawCircleLines(buttons[1]->getX(), buttons[1]->getY(), buttons[1]->getRadius(), centerLineInst);
 
+		//DrawRectangleRec(fade, fadeScreen);
+
+#ifdef EXTRA_INFO
+		if (GetGamepadButtonPressed() != -1)
+			DrawText(FormatText("DETECTED BUTTON: %i", GetGamepadButtonPressed()), 10, 430, 10, YELLOW);
+		else
+			DrawText("DETECTED BUTTON: NONE", 10, 430, 10, RED);
 
 		DrawText("v0.4", 1200, 680, 30, BLACK);
-
+#endif //EXTRA_INFO
 	}
 
 	void Screens::updateInstructions()
@@ -276,6 +302,7 @@ namespace screen
 
 			gameplayDinamicCircle->setRadius(MaxRadius);
 			pointGet = false;
+			buttonRelease = false;
 		}
 
 		if (IsKeyPressed(KEY_A) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == yellow
@@ -308,7 +335,27 @@ namespace screen
 			healthPoints--;
 		}
 
-		if (IsGamepadButtonPressed(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius))
+		if (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && buttonRelease == false)
+		{
+			score += 100 * scoreMultiplier;
+			colorCounter++;
+			multiplier.height += 30;
+			scoreMultiplier += 0.25f;
+			pointGet = true;
+			buttonRelease = true;
+		}
+
+		if (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && buttonRelease == false)
+		{
+			score += 100 * scoreMultiplier;
+			colorCounter++;
+			multiplier.height += 30;
+			scoreMultiplier += 0.25f;
+			pointGet = true;
+			buttonRelease = true;
+		}
+
+		if (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_UP) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && buttonRelease == false)
 		{
 			score += 100 * scoreMultiplier;
 			colorCounter++;
@@ -316,7 +363,6 @@ namespace screen
 			scoreMultiplier += 0.25f;
 			pointGet = true;
 		}
-
 		if (multiplier.height >= maxSize)
 		{
 			multiplier.height = 380;
@@ -437,4 +483,5 @@ namespace screen
 	{
 	
 	}
+
 }
