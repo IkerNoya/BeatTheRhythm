@@ -1,6 +1,6 @@
 @echo off
 echo copying files...
-copy "%1\raylib.dll" "%2"
+copy "%1\lib\raylib-2.6.0-Win32-msvc15-actualizado\bin\Release\raylib.dll" "%2"
 cd "%2"
 mkdir "res"
 cd "res"
