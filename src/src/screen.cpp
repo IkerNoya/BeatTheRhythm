@@ -186,7 +186,7 @@ namespace screen
 		background = LoadImage("res/assets/colorBack.png");
 		ImageResize(&background, 1280, 720);
 		menuBackground = LoadTextureFromImage(background);
-		gameBackground = LoadTexture("res/assets/gameBack.png");
+		gameBackground = LoadTextureFromImage(background);
 		charT = LoadImage("res/assets/test.png");
 		ImageResize(&charT, 200, 200);
 		charTest = LoadTextureFromImage(charT);
