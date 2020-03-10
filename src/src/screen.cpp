@@ -332,6 +332,7 @@ namespace screen
 			multiplier.height = 20.0f;
 			scoreMultiplier = 1;
 			healthPoints--;
+			pointGet = true;
 		}
 
 		if (currentColor == yellow && IsKeyPressed(KEY_S) || currentColor == yellow && IsKeyPressed(KEY_D)
@@ -341,6 +342,7 @@ namespace screen
 			multiplier.height = 20.0f;
 			scoreMultiplier = 1;
 			healthPoints--;
+			pointGet = true;
 		}
 
 		if (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == yellow && buttonRelease == false
