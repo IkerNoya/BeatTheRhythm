@@ -26,6 +26,7 @@ namespace screen
 
 	Circle* dinamicCircle[buttonLimit];
 
+	Image background;
 	Texture2D menuBackground;
 	Texture2D gameBackground;
 	Image charT;
@@ -182,7 +183,9 @@ namespace screen
 		fade.x = 1280;
 		fade.x = 720;
 
-		menuBackground = LoadTexture("res/assets/colorBack.jpg");
+		background = LoadImage("res/assets/colorBack.png");
+		ImageResize(&background, 1280, 720);
+		menuBackground = LoadTextureFromImage(background);
 		gameBackground = LoadTexture("res/assets/gameBack.png");
 		charT = LoadImage("res/assets/test.png");
 		ImageResize(&charT, 200, 200);
