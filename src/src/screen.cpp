@@ -142,6 +142,7 @@ namespace screen
 		UnloadTexture(title);
 		UnloadTexture(gameBackground);
 		UnloadImage(charT);
+		UnloadImage(background);
 	}
 
 	void Screens::initData()
