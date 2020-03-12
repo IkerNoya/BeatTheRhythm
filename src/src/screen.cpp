@@ -67,6 +67,7 @@ namespace screen
 	Rectangle multiplier;
 	Rectangle fade;
 
+	Sound hit;
 
 	enum CurrentColor
 	{
@@ -156,6 +157,7 @@ namespace screen
 		UnloadTexture(gameBackground);
 		UnloadImage(charT);
 		UnloadImage(background);
+		UnloadSound(hit);
 	}
 
 	void Screens::initData()
@@ -230,6 +232,9 @@ namespace screen
 		ImageResize(&greenPointCircleImage, 278, 167);
 		greenPointCircle = LoadTextureFromImage(greenPointCircleImage);
 
+		hit = LoadSound("res/assets/Audio/Hit.ogg");
+		SetSoundVolume(hit, 0.15f);
+
 		buttonRelease = false;
 	}
 
@@ -251,7 +256,7 @@ namespace screen
 			dinamicCircle[1]->setRadius(MaxRadius);
 		}
 
-		if (IsKeyPressed(KEY_A) && (dinamicCircle[0]->getRadius() <= middleRadius && dinamicCircle[0]->getRadius() > initialRadius))
+		if (IsKeyPressed(KEY_S) && (dinamicCircle[0]->getRadius() <= middleRadius && dinamicCircle[0]->getRadius() > initialRadius))
 		{
 			states = gameplay;
 		}
@@ -259,7 +264,7 @@ namespace screen
 		{
 			states = gameplay;
 		}
-		if (IsKeyPressed(KEY_S) && (dinamicCircle[1]->getRadius() <= middleRadius && dinamicCircle[1]->getRadius() > initialRadius))
+		if (IsKeyPressed(KEY_A) && (dinamicCircle[1]->getRadius() <= middleRadius && dinamicCircle[1]->getRadius() > initialRadius))
 		{
 			states = instructions;
 		}
@@ -330,16 +335,14 @@ namespace screen
 	void Screens::drawInstructions()
 	{
 		ClearBackground(BLACK);
-		DrawText("Press A when the color is yellow", 300, 200, 40, YELLOW);
-		DrawText("Press S when the color is green", 300, 300, 40, GREEN);
+		DrawText("Press S when the color is yellow", 300, 200, 40, YELLOW);
+		DrawText("Press A when the color is green", 300, 300, 40, GREEN);
 		DrawText("Press D when the color is red", 300, 400, 40, RED);
 		DrawText("press ENTER to go back", 450, 600, 30, WHITE);
 	}
 
 	void Screens::updateGameplay()
 	{
-
-
 		if (gameplayDinamicCircle->getRadius() <= initialRadius)
 		{
 			if (pointGet == false)
@@ -347,11 +350,13 @@ namespace screen
 				multiplier.height = 20.0f;
 				scoreMultiplier = 1;
 				healthPoints--;
+				winCounter++;
 			}
 
 			gameplayDinamicCircle->setRadius(MaxRadius);
 			pointGet = false;
 			buttonRelease = false;
+			colorCounter++;
 		}
 
 		if (IsKeyPressed(KEY_S) && (gameplayDinamicCircle->getRadius() <= middleRadius + 5 && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == yellow
@@ -359,11 +364,12 @@ namespace screen
 			|| IsKeyPressed(KEY_D) && (gameplayDinamicCircle->getRadius() <= middleRadius + 5 && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == red)
 		{
 			score += 100 * scoreMultiplier;
-			colorCounter++;
 			multiplier.height += 47.5;
 			scoreMultiplier += 0.25f;
 			pointGet = true;
+			colorCounter++;
 			winCounter++;
+			PlaySound(hit);
 		}
 
 		if (IsKeyPressed(KEY_S) && (gameplayDinamicCircle->getRadius() > middleRadius)
@@ -391,12 +397,12 @@ namespace screen
 			|| (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_UP) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == red && buttonRelease == false)))
 		{
 			score += 100 * scoreMultiplier;
-			colorCounter++;
 			multiplier.height += 47.5;
 			scoreMultiplier += 0.25f;
 			pointGet = true;
 			winCounter++;
 			buttonRelease = true;
+			PlaySound(hit);
 		}
 
 		if (multiplier.height >= maxSize)
@@ -441,6 +447,7 @@ namespace screen
 			healthPoints = 10;
 			score = 0;
 			colorCounter = 0;
+			winCounter = 0;
 		}
 
 		if (winCounter>=winningHits-1)
