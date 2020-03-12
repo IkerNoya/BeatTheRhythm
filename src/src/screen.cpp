@@ -13,7 +13,7 @@ namespace screen
 	const float MaxRadius = 100.0f;
 	const int maxSize = 380;
 	const float maxMultiplier = 3.0f;
-	const int winningHits = 36;
+	const int winningHits = 26;
 
 	Screens* screens;
 
@@ -338,7 +338,7 @@ namespace screen
 
 	void Screens::updateGameplay()
 	{
-		gameplayDinamicCircle->setRadius(gameplayDinamicCircle->getRadius() - (95.0f*GetFrameTime()));
+
 
 		if (gameplayDinamicCircle->getRadius() <= initialRadius)
 		{
@@ -354,8 +354,8 @@ namespace screen
 			buttonRelease = false;
 		}
 
-		if (IsKeyPressed(KEY_A) && (gameplayDinamicCircle->getRadius() <= middleRadius + 5 && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == yellow
-			|| IsKeyPressed(KEY_S) && (gameplayDinamicCircle->getRadius() <= middleRadius + 5 && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == green
+		if (IsKeyPressed(KEY_S) && (gameplayDinamicCircle->getRadius() <= middleRadius + 5 && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == yellow
+			|| IsKeyPressed(KEY_A) && (gameplayDinamicCircle->getRadius() <= middleRadius + 5 && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == green
 			|| IsKeyPressed(KEY_D) && (gameplayDinamicCircle->getRadius() <= middleRadius + 5 && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == red)
 		{
 			score += 100 * scoreMultiplier;
@@ -366,8 +366,8 @@ namespace screen
 			winCounter++;
 		}
 
-		if (IsKeyPressed(KEY_A) && (gameplayDinamicCircle->getRadius() > middleRadius)
-			|| IsKeyPressed(KEY_S) && (gameplayDinamicCircle->getRadius() > middleRadius)
+		if (IsKeyPressed(KEY_S) && (gameplayDinamicCircle->getRadius() > middleRadius)
+			|| IsKeyPressed(KEY_A) && (gameplayDinamicCircle->getRadius() > middleRadius)
 			|| IsKeyPressed(KEY_D) && (gameplayDinamicCircle->getRadius() > middleRadius))
 		{
 			multiplier.height = 20.0f;
@@ -376,8 +376,8 @@ namespace screen
 			pointGet = true;
 		}
 
-		if (currentColor == yellow && IsKeyPressed(KEY_S) || currentColor == yellow && IsKeyPressed(KEY_D)
-			|| currentColor == green && IsKeyPressed(KEY_A) || currentColor == green && IsKeyPressed(KEY_D)
+		if (currentColor == yellow && IsKeyPressed(KEY_A) || currentColor == yellow && IsKeyPressed(KEY_D)
+			|| currentColor == green && IsKeyPressed(KEY_S) || currentColor == green && IsKeyPressed(KEY_D)
 			|| currentColor == red && IsKeyPressed(KEY_A) || currentColor == red && IsKeyPressed(KEY_S))
 		{
 			multiplier.height = 20.0f;
@@ -441,6 +441,15 @@ namespace screen
 			healthPoints = 10;
 			score = 0;
 			colorCounter = 0;
+		}
+
+		if (winCounter>=winningHits-1)
+		{
+			gameplayDinamicCircle->setRadius(gameplayDinamicCircle->getRadius() - (25.0f*GetFrameTime()));
+		}
+		else
+		{
+			gameplayDinamicCircle->setRadius(gameplayDinamicCircle->getRadius() - (55.0f*GetFrameTime()));
 		}
 
 		if (winCounter >= winningHits)
