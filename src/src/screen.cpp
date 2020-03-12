@@ -55,6 +55,7 @@ namespace screen
 	Rectangle multiplier;
 	Rectangle fade;
 
+
 	enum CurrentColor
 	{
 		red,
@@ -301,7 +302,7 @@ namespace screen
 
 	void Screens::updateGameplay()
 	{
-		gameplayDinamicCircle->setRadius(gameplayDinamicCircle->getRadius() - (50.0f*GetFrameTime()));
+		gameplayDinamicCircle->setRadius(gameplayDinamicCircle->getRadius() - (95.0f*GetFrameTime()));
 
 		if (gameplayDinamicCircle->getRadius() <= initialRadius)
 		{
