@@ -7,7 +7,7 @@ using namespace circle;
 namespace screen
 {
 
-	const int buttonLimit = 2;
+	const int buttonLimit = 3;
 	const float initialRadius = 50.0f;
 	const float middleRadius = 65.0f;
 	const float MaxRadius = 100.0f;
@@ -44,6 +44,10 @@ namespace screen
 	Texture2D yellowButton;
 	Texture2D charTest;
 	Texture2D title;
+	Image iLogo;
+	Texture2D imageLogo;
+	Image sLabLogo;
+	Texture2D summerLabLogo;
 
 	Color MiddleCirclePlay;
 	Color BackCirclePlay;
@@ -55,10 +59,10 @@ namespace screen
 	Color centerCircleInst;
 	Color centerLineInst;
 
-	Color MiddleCircleQuit;
-	Color BackCircleQuit;
-	Color centerCircleQuit;
-	Color centerLineQuit;
+	Color MiddleCircleCred;
+	Color BackCircleCred;
+	Color centerCircleCred;
+	Color centerLineCred;
 
 	Color changeColor;
 
@@ -102,11 +106,11 @@ namespace screen
 		BackCircleInst = { 1 , 116 , 10 , 80 };
 		centerCircleInst = { 1 , 116 , 10 , 255 };
 		centerLineInst = { 7 , 64 , 11 , 255 };
-		//-----------quit--------------
-		MiddleCircleQuit = { 230 , 151 , 151 , 180 };
-		BackCircleQuit = { 140 , 17 , 17 , 80 };
-		centerCircleQuit = { 140 , 17 , 17 , 255 };
-		centerLineQuit = { 96 , 15 , 15 , 255 };
+		//-----------Credits--------------
+		MiddleCircleCred = { 230 , 151 , 151 , 180 };
+		BackCircleCred = { 140 , 17 , 17 , 80 };
+		centerCircleCred = { 140 , 17 , 17 , 255 };
+		centerLineCred = { 96 , 15 , 15 , 255 };
 		//-----------fade---------------
 		
 	}
@@ -154,23 +158,30 @@ namespace screen
 
 		UnloadTexture(charTest);
 		UnloadTexture(title);
+		UnloadTexture(imageLogo);
+		UnloadTexture(summerLabLogo);
 		UnloadTexture(gameBackground);
 		UnloadImage(charT);
 		UnloadImage(background);
+		UnloadImage(sLabLogo);
+		UnloadImage(iLogo);
 		UnloadSound(hit);
 	}
 
 	void Screens::initData()
 	{
 
-		buttons[0] = new Circle(initialRadius, 435, 500);
-		buttons[1] = new Circle(initialRadius, 800, 500);
+		buttons[0] = new Circle(initialRadius, 670, 500);
+		buttons[1] = new Circle(initialRadius, 353, 447);
+		buttons[2] = new Circle(initialRadius, 989, 447);
 
-		pointLine[0] = new Circle(middleRadius, 435, 500);
-		pointLine[1] = new Circle(middleRadius, 800, 500);
+		pointLine[0] = new Circle(middleRadius, 670, 500);
+		pointLine[1] = new Circle(middleRadius, 353, 447);
+		pointLine[2] = new Circle(middleRadius, 989, 447);
 
-		dinamicCircle[0] = new Circle(MaxRadius, 435, 500);
-		dinamicCircle[1] = new Circle(MaxRadius, 800, 500);
+		dinamicCircle[0] = new Circle(MaxRadius, 670, 500);
+		dinamicCircle[1] = new Circle(MaxRadius, 353, 447);
+		dinamicCircle[2] = new Circle(MaxRadius, 989, 447);
 
 		gameplayButton = new Circle(initialRadius, 670, 500);
 		gameplayPointLine = new Circle(middleRadius, 670, 500);
@@ -207,6 +218,12 @@ namespace screen
 		ImageResize(&charT, 200, 200);
 		charTest = LoadTextureFromImage(charT);
 		title = LoadTexture("res/assets/title.png");
+		iLogo = LoadImage("res/assets/image.png");
+		ImageResize(&iLogo, 324, 162);
+		imageLogo = LoadTextureFromImage(iLogo);
+		sLabLogo = LoadImage("res/assets/lab.png");
+		ImageResize(&sLabLogo, 150, 150);
+		summerLabLogo = LoadTextureFromImage(sLabLogo);
 
 		redButtonImage = LoadImage("res/assets/buttonRedNormal.png");
 		ImageResize(&redButtonImage, 268, 157);
@@ -245,6 +262,7 @@ namespace screen
 		fadeScreen = { 0, 0, 0, fadeCounter };*/
 		dinamicCircle[0]->setRadius(dinamicCircle[0]->getRadius() - (50.0f*GetFrameTime()));
 		dinamicCircle[1]->setRadius(dinamicCircle[1]->getRadius() - (50.0f*GetFrameTime()));
+		dinamicCircle[2]->setRadius(dinamicCircle[2]->getRadius() - (50.0f*GetFrameTime()));
 
 		if (dinamicCircle[0]->getRadius() <= initialRadius)
 		{
@@ -254,6 +272,11 @@ namespace screen
 		if (dinamicCircle[1]->getRadius() <= initialRadius)
 		{
 			dinamicCircle[1]->setRadius(MaxRadius);
+		}
+
+		if (dinamicCircle[2]->getRadius() <= initialRadius)
+		{
+			dinamicCircle[2]->setRadius(MaxRadius);
 		}
 
 		if (IsKeyPressed(KEY_S) && (dinamicCircle[0]->getRadius() <= middleRadius && dinamicCircle[0]->getRadius() > initialRadius))
@@ -272,6 +295,15 @@ namespace screen
 		{
 			states = instructions;
 		}
+		if (IsKeyPressed(KEY_D) && (dinamicCircle[1]->getRadius() <= middleRadius && dinamicCircle[1]->getRadius() > initialRadius))
+		{
+			states = credits;
+		}
+		if (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_UP) && (dinamicCircle[2]->getRadius() <= middleRadius && dinamicCircle[2]->getRadius() > initialRadius))
+		{
+			states = credits;
+		}
+
 	}
 	void Screens::drawMenu()
 	{
@@ -285,11 +317,11 @@ namespace screen
 		DrawTexture(menuBackground, 1, 1, WHITE);
 		DrawTexture(title, 1, -25, WHITE);
 		DrawTexture(charTest, 320, 80, WHITE);
-		DrawText("Play", 380, 330, 50, YELLOW);
-		DrawText("Instructions", 650, 330, 50, DARKGREEN);
-
-		DrawText("Game Designer - Delgado, Federico    Game Artists - Migliavacca, Sofia       Game Programmers - Noya, Iker", 50, 630, 20, BLACK);
-		DrawText("                                                   Regues Garcia, Sofia                              Blanco, Juan Simon", 190, 660, 20, BLACK);
+		DrawTexture(imageLogo, 300, 570, WHITE);
+		DrawTexture(summerLabLogo, 800, 560, WHITE);
+		DrawText("Play", 630, 330, 50, YELLOW);
+		DrawText("Instructions", 200, 310, 50, DARKGREEN);
+		DrawText("Credits", 900, 310, 50, RED);
 
 		//-------------------------dinamic circles-----------------------
 		DrawCircleV(dinamicCircle[0]->getPos(), dinamicCircle[0]->getRadius(), BackCirclePlay);
@@ -298,10 +330,13 @@ namespace screen
 		DrawCircleV(dinamicCircle[1]->getPos(), dinamicCircle[1]->getRadius(), BackCircleInst);
 		DrawCircleLines(dinamicCircle[1]->getX(), dinamicCircle[1]->getY(), dinamicCircle[1]->getRadius(), BLACK);
 
+		DrawCircleV(dinamicCircle[2]->getPos(), dinamicCircle[2]->getRadius(), BackCircleCred);
+		DrawCircleLines(dinamicCircle[2]->getX(), dinamicCircle[2]->getY(), dinamicCircle[2]->getRadius(), BLACK);
 
 		//-------------------------middle circle--------------------------------------
 		DrawCircleV(pointLine[0]->getPos(), pointLine[0]->getRadius(), MiddleCirclePlay);
 		DrawCircleV(pointLine[1]->getPos(), pointLine[1]->getRadius(), MiddleCircleInst);
+		DrawCircleV(pointLine[2]->getPos(), pointLine[1]->getRadius(), MiddleCircleCred);
 
 
 		//-------------------------center circles------------------------------
@@ -310,6 +345,9 @@ namespace screen
 
 		DrawCircleV(buttons[1]->getPos(), buttons[1]->getRadius(), centerCircleInst);
 		DrawCircleLines(buttons[1]->getX(), buttons[1]->getY(), buttons[1]->getRadius(), centerLineInst);
+
+		DrawCircleV(buttons[2]->getPos(), buttons[2]->getRadius(), centerCircleCred);
+		DrawCircleLines(buttons[2]->getX(), buttons[2]->getY(), buttons[2]->getRadius(), centerLineCred);
 
 		//DrawRectangleRec(fade, fadeScreen);
 
@@ -330,11 +368,13 @@ namespace screen
 			states = menu;
 			dinamicCircle[0]->setRadius(MaxRadius);
 			dinamicCircle[1]->setRadius(MaxRadius);
+			dinamicCircle[2]->setRadius(MaxRadius);
 		}
 	}
 	void Screens::drawInstructions()
 	{
 		ClearBackground(BLACK);
+		DrawTexture(menuBackground, 1, 1, WHITE);
 		DrawText("Press S when the color is yellow", 300, 200, 40, YELLOW);
 		DrawText("Press A when the color is green", 300, 300, 40, GREEN);
 		DrawText("Press D when the color is red", 300, 400, 40, RED);
@@ -490,7 +530,7 @@ namespace screen
 		}
 		if (currentColor == red)
 		{
-			DrawCircle(gameplayDinamicCircle->getPos().x + 319, gameplayDinamicCircle->getPos().y - 53, gameplayDinamicCircle->getRadius(), BackCircleQuit);
+			DrawCircle(gameplayDinamicCircle->getPos().x + 319, gameplayDinamicCircle->getPos().y - 53, gameplayDinamicCircle->getRadius(), BackCircleCred);
 			DrawCircleLines(gameplayDinamicCircle->getPos().x + 319, gameplayDinamicCircle->getPos().y - 53, gameplayDinamicCircle->getRadius(), BLACK);
 		}
 		
@@ -560,11 +600,25 @@ namespace screen
 
 	void Screens::updateCredits()
 	{
-	
+		if (IsKeyPressed(KEY_ENTER))
+		{
+			states = menu;
+			dinamicCircle[0]->setRadius(MaxRadius);
+			dinamicCircle[1]->setRadius(MaxRadius);
+			dinamicCircle[2]->setRadius(MaxRadius);
+		}
 	}
 	void Screens::drawCredits()
 	{
-	
+		ClearBackground(BLACK);
+		DrawTexture(menuBackground, 1, 1, WHITE);
+		DrawText("Game Designer           Federico Delgado", 50, 200, 30, YELLOW);
+		DrawText("Game Artists            Sofia Migliavacca", 50, 300, 30, YELLOW);
+		DrawText("                            Sofia Regues Garcia", 55, 350, 30, YELLOW);
+		DrawText("Audio                     Leonel Suarez ", 50, 450, 30, YELLOW);
+		DrawText("Programmers          Juan Simon Blanco ", 50, 550, 30, YELLOW);
+		DrawText("                           Iker Arturo Noya Linares", 50, 600, 30, YELLOW);
+
 	}
 
 }

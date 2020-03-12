@@ -44,6 +44,11 @@ namespace game
 			screens->updateInstructions();
 			break;
 
+		case screens->credits:
+			UpdateMusicStream(menuMusic);
+			screens->updateCredits();
+			break;
+
 		case screens->gameplay:
 			StopMusicStream(menuMusic);
 			PlayMusicStream(gameplayMusic);
@@ -63,6 +68,10 @@ namespace game
 
 		case screens->instructions:
 			screens->drawInstructions();
+			break;
+
+		case screens->credits:
+			screens->drawCredits();
 			break;
 
 		case screens->gameplay:
