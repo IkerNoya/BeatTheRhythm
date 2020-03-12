@@ -357,7 +357,7 @@ namespace screen
 		else
 			DrawText("DETECTED BUTTON: NONE", 10, 430, 10, RED);
 
-		DrawText("v0.5", 1200, 680, 30, BLACK);
+		DrawText("v0.6", 1200, 680, 30, BLACK);
 #endif //EXTRA_INFO
 	}
 

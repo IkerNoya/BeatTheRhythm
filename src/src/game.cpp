@@ -13,7 +13,7 @@ namespace game
 
 	void init()
 	{
-		InitWindow(1280, 720, "BeatTheRhythm v0.5");
+		InitWindow(1280, 720, "BeatTheRhythm v0.6");
 		InitAudioDevice();
 #ifdef RELEASE_CONFIG
 		ToggleFullscreen();
