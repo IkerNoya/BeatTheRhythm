@@ -18,6 +18,7 @@ namespace game
 #ifdef RELEASE_CONFIG
 		ToggleFullscreen();
 #endif // RELEASE_CONFIG
+		SetTargetFPS(60);
 		menuMusic = LoadMusicStream("res/assets/Audio/Menu.ogg");
 		gameplayMusic = LoadMusicStream("res/assets/Audio/Gameplay-song.ogg");
 		SetMusicVolume(menuMusic, 0.2);

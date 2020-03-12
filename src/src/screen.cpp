@@ -14,6 +14,8 @@ namespace screen
 	const int maxSize = 380;
 	const float maxMultiplier = 3.0f;
 	const int winningHits = 26;
+	const int animFrames = 8;
+	const int framesLimit = 60;
 
 	Screens* screens;
 
@@ -48,6 +50,14 @@ namespace screen
 	Texture2D imageLogo;
 	Image sLabLogo;
 	Texture2D summerLabLogo;
+
+	//---------Animations---------------
+	Image backAnim;
+	Texture2D charSpriteSheet;
+	Vector2 backAnimPos;
+	Rectangle charCamera;
+	int animTimer;
+	int secondTimer;
 
 	Color MiddleCirclePlay;
 	Color BackCirclePlay;
@@ -161,10 +171,14 @@ namespace screen
 		UnloadTexture(imageLogo);
 		UnloadTexture(summerLabLogo);
 		UnloadTexture(gameBackground);
+		UnloadTexture(charSpriteSheet);
+
 		UnloadImage(charT);
 		UnloadImage(background);
 		UnloadImage(sLabLogo);
 		UnloadImage(iLogo);
+		UnloadImage(backAnim);
+
 		UnloadSound(hit);
 	}
 
@@ -225,6 +239,16 @@ namespace screen
 		ImageResize(&sLabLogo, 150, 150);
 		summerLabLogo = LoadTextureFromImage(sLabLogo);
 
+		//------------Animations
+		backAnim = LoadImage("res/assets/backAnim.png");
+		ImageResize(&backAnim, 1400, 400);
+		charSpriteSheet = LoadTextureFromImage(backAnim);
+		backAnimPos = { 450, 0 };
+		charCamera = { 0, 0, 280, 400 };
+		animTimer = 0;
+		secondTimer = 0;
+
+
 		redButtonImage = LoadImage("res/assets/buttonRedNormal.png");
 		ImageResize(&redButtonImage, 268, 157);
 		redButton = LoadTextureFromImage(redButtonImage);
@@ -255,14 +279,23 @@ namespace screen
 		buttonRelease = false;
 	}
 
-	void Screens::updateMenu() 
+	void Screens::updateMenu()
 	{
-		buttonRelease = false; 
+		buttonRelease = false;
 		/*fadeCounter -= 100 * GetFrameTime();
 		fadeScreen = { 0, 0, 0, fadeCounter };*/
 		dinamicCircle[0]->setRadius(dinamicCircle[0]->getRadius() - (50.0f*GetFrameTime()));
 		dinamicCircle[1]->setRadius(dinamicCircle[1]->getRadius() - (50.0f*GetFrameTime()));
 		dinamicCircle[2]->setRadius(dinamicCircle[2]->getRadius() - (50.0f*GetFrameTime()));
+
+		animTimer++;
+		if (animTimer >= (framesLimit / animFrames))
+		{
+			animTimer = 0;
+			secondTimer++;
+
+			charCamera.x = static_cast<float>(secondTimer * (charCamera.width));
+		}
 
 		if (dinamicCircle[0]->getRadius() <= initialRadius)
 		{
@@ -304,6 +337,8 @@ namespace screen
 			states = credits;
 		}
 
+
+
 	}
 	void Screens::drawMenu()
 	{
@@ -315,8 +350,8 @@ namespace screen
 		test.width = 80;
 		test.height = 80;
 		DrawTexture(menuBackground, 1, 1, WHITE);
-		DrawTexture(title, 1, -25, WHITE);
-		DrawTexture(charTest, 320, 80, WHITE);
+		DrawTexture(title, 1, -70, WHITE);
+		DrawTextureRec(charSpriteSheet, charCamera, backAnimPos, WHITE);
 		DrawTexture(imageLogo, 300, 570, WHITE);
 		DrawTexture(summerLabLogo, 800, 560, WHITE);
 		DrawText("Play", 630, 330, 50, YELLOW);
