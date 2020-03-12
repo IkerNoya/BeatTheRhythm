@@ -338,7 +338,7 @@ namespace screen
 
 	void Screens::updateGameplay()
 	{
-		gameplayDinamicCircle->setRadius(gameplayDinamicCircle->getRadius() - (95.0f*GetFrameTime()));
+		gameplayDinamicCircle->setRadius(gameplayDinamicCircle->getRadius() - (60.5f*GetFrameTime()));
 
 		if (gameplayDinamicCircle->getRadius() <= initialRadius)
 		{
@@ -347,11 +347,13 @@ namespace screen
 				multiplier.height = 20.0f;
 				scoreMultiplier = 1;
 				healthPoints--;
+				winCounter++;
 			}
 
 			gameplayDinamicCircle->setRadius(MaxRadius);
 			pointGet = false;
 			buttonRelease = false;
+			colorCounter++;
 		}
 
 		if (IsKeyPressed(KEY_A) && (gameplayDinamicCircle->getRadius() <= middleRadius + 5 && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == yellow
@@ -359,10 +361,10 @@ namespace screen
 			|| IsKeyPressed(KEY_D) && (gameplayDinamicCircle->getRadius() <= middleRadius + 5 && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == red)
 		{
 			score += 100 * scoreMultiplier;
-			colorCounter++;
 			multiplier.height += 47.5;
 			scoreMultiplier += 0.25f;
 			pointGet = true;
+			colorCounter++;
 			winCounter++;
 		}
 
@@ -391,7 +393,6 @@ namespace screen
 			|| (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_UP) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == red && buttonRelease == false)))
 		{
 			score += 100 * scoreMultiplier;
-			colorCounter++;
 			multiplier.height += 47.5;
 			scoreMultiplier += 0.25f;
 			pointGet = true;
@@ -441,6 +442,7 @@ namespace screen
 			healthPoints = 10;
 			score = 0;
 			colorCounter = 0;
+			winCounter = 0;
 		}
 
 		if (winCounter >= winningHits)

@@ -20,6 +20,8 @@ namespace game
 #endif // RELEASE_CONFIG
 		menuMusic = LoadMusicStream("res/assets/Audio/Menu.ogg");
 		gameplayMusic = LoadMusicStream("res/assets/Audio/Gameplay-song.ogg");
+		SetMusicVolume(menuMusic, 0.2);
+		SetMusicVolume(gameplayMusic, 0.2);
 		screens = new Screens();
 		screens->initData();
 		screens->states = screens->menu;
