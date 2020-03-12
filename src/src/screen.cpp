@@ -30,6 +30,18 @@ namespace screen
 	Texture2D menuBackground;
 	Texture2D gameBackground;
 	Image charT;
+	Image redPointCircleImage;
+	Image greenPointCircleImage;
+	Image yellowPointCircleImage;
+	Texture2D redPointCircle;
+	Texture2D greenPointCircle;
+	Texture2D yellowPointCircle;
+	Image redButtonImage;
+	Image greenButtonImage;
+	Image yellowButtonImage;
+	Texture2D redButton;
+	Texture2D greenButton;
+	Texture2D yellowButton;
 	Texture2D charTest;
 	Texture2D title;
 
@@ -194,6 +206,30 @@ namespace screen
 		charTest = LoadTextureFromImage(charT);
 		title = LoadTexture("res/assets/title.png");
 
+		redButtonImage = LoadImage("res/assets/buttonRedNormal.png");
+		ImageResize(&redButtonImage, 268, 157);
+		redButton = LoadTextureFromImage(redButtonImage);
+
+		greenButtonImage = LoadImage("res/assets/buttongreenNormal.png");
+		ImageResize(&greenButtonImage, 268, 157);
+		greenButton = LoadTextureFromImage(greenButtonImage);
+
+		yellowButtonImage = LoadImage("res/assets/buttonyellowNormal.png");
+		ImageResize(&yellowButtonImage, 268, 157);
+		yellowButton = LoadTextureFromImage(yellowButtonImage);
+
+		yellowPointCircleImage = LoadImage("res/assets/pointCircleYellow.png");
+		ImageResize(&yellowPointCircleImage, 278, 167);
+		yellowPointCircle = LoadTextureFromImage(yellowPointCircleImage);
+
+		redPointCircleImage = LoadImage("res/assets/pointCircleRed.png");
+		ImageResize(&redPointCircleImage, 278, 167);
+		redPointCircle = LoadTextureFromImage(redPointCircleImage);
+
+		greenPointCircleImage = LoadImage("res/assets/pointCircleGreen.png");
+		ImageResize(&greenPointCircleImage, 278, 167);
+		greenPointCircle = LoadTextureFromImage(greenPointCircleImage);
+
 		buttonRelease = false;
 	}
 
@@ -318,9 +354,9 @@ namespace screen
 			buttonRelease = false;
 		}
 
-		if (IsKeyPressed(KEY_A) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == yellow
-			|| IsKeyPressed(KEY_S) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == green
-			|| IsKeyPressed(KEY_D) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == red)
+		if (IsKeyPressed(KEY_A) && (gameplayDinamicCircle->getRadius() <= middleRadius + 5 && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == yellow
+			|| IsKeyPressed(KEY_S) && (gameplayDinamicCircle->getRadius() <= middleRadius + 5 && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == green
+			|| IsKeyPressed(KEY_D) && (gameplayDinamicCircle->getRadius() <= middleRadius + 5 && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == red)
 		{
 			score += 100 * scoreMultiplier;
 			colorCounter++;
@@ -425,18 +461,49 @@ namespace screen
 
 		//-------------------------dinamic circles-----------------------------
 
-		DrawCircleV(gameplayDinamicCircle->getPos(), gameplayDinamicCircle->getRadius(), BackCirclePlay);
-		DrawCircleLines(gameplayDinamicCircle->getPos().x, gameplayDinamicCircle->getPos().y, gameplayDinamicCircle->getRadius(), BLACK);
-
+		
+		if (currentColor == yellow)
+		{
+			DrawCircleV(gameplayDinamicCircle->getPos(), gameplayDinamicCircle->getRadius(), BackCirclePlay);
+			DrawCircleLines(gameplayDinamicCircle->getPos().x, gameplayDinamicCircle->getPos().y, gameplayDinamicCircle->getRadius(), BLACK);
+		}
+		if (currentColor == green)
+		{
+			DrawCircle(gameplayDinamicCircle->getPos().x - 317, gameplayDinamicCircle->getPos().y - 53, gameplayDinamicCircle->getRadius(), BackCircleInst);
+			DrawCircleLines(gameplayDinamicCircle->getPos().x - 317, gameplayDinamicCircle->getPos().y - 53, gameplayDinamicCircle->getRadius(), BLACK);
+		}
+		if (currentColor == red)
+		{
+			DrawCircle(gameplayDinamicCircle->getPos().x + 319, gameplayDinamicCircle->getPos().y - 53, gameplayDinamicCircle->getRadius(), BackCircleQuit);
+			DrawCircleLines(gameplayDinamicCircle->getPos().x + 319, gameplayDinamicCircle->getPos().y - 53, gameplayDinamicCircle->getRadius(), BLACK);
+		}
+		
 		//-------------------------middle circle--------------------------------------
 
 		DrawCircleV(gameplayPointLine->getPos(), gameplayPointLine->getRadius(), MiddleCirclePlay);
+
+		DrawTexture(yellowPointCircle, gameplayButton->getPos().x - 138, gameplayButton->getPos().y - 88, WHITE);
+		DrawCircleLines(gameplayButton->getPos().x, gameplayButton->getPos().y, gameplayPointLine->getRadius(), BLACK);
+
+		DrawTexture(greenPointCircle, gameplayButton->getPos().x - (320 + 136), gameplayButton->getPos().y - 140, WHITE);
+		DrawCircleLines(gameplayButton->getPos().x - 318, gameplayButton->getPos().y - 53, gameplayPointLine->getRadius(), BLACK);
+
+		DrawTexture(redPointCircle, (gameplayButton->getPos().x + 320) - 140, gameplayButton->getPos().y - 140, WHITE);
+		DrawCircleLines(gameplayButton->getPos().x + 318, gameplayButton->getPos().y - 53, gameplayPointLine->getRadius(), BLACK);
 
 		//-------------------------center circles------------------------------
 
 		DrawCircleV(gameplayButton->getPos(), gameplayButton->getRadius(), changeColor);
 		DrawCircleLines(gameplayButton->getPos().x, gameplayButton->getPos().y, gameplayButton->getRadius(), centerLinePlay);
 
+		DrawTexture(yellowButton, gameplayButton->getPos().x -133 , gameplayButton->getPos().y - 83, WHITE);
+		DrawCircleLines(gameplayButton->getPos().x, gameplayButton->getPos().y, gameplayButton->getRadius()+2, BLACK);
+
+		DrawTexture(greenButton, gameplayButton->getPos().x - (320 + 131), gameplayButton->getPos().y - 135, WHITE);
+		DrawCircleLines(gameplayButton->getPos().x - 318, gameplayButton->getPos().y - 53, gameplayButton->getRadius()+2, BLACK);
+
+		DrawTexture(redButton, (gameplayButton->getPos().x + 320) - 135, gameplayButton->getPos().y - 135, WHITE);
+		DrawCircleLines(gameplayButton->getPos().x + 318, gameplayButton->getPos().y - 53, gameplayButton->getRadius()+2, BLACK);
 
 		DrawText(TextFormat("Score: %08i", score), 350, 10, 80, BLUE);
 
