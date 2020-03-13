@@ -727,12 +727,21 @@ namespace screen
 	{
 		ClearBackground(BLACK);
 		DrawTexture(menuBackground, 1, 1, WHITE);
-		DrawText("Game Designer           Federico Delgado", 50, 200, 30, YELLOW);
-		DrawText("Game Artists            Sofia Migliavacca", 50, 300, 30, YELLOW);
-		DrawText("                            Sofia Regues Garcia", 55, 350, 30, YELLOW);
-		DrawText("Audio                     Leonel Suarez ", 50, 450, 30, YELLOW);
-		DrawText("Programmers          Juan Simon Blanco ", 50, 550, 30, YELLOW);
-		DrawText("                           Iker Arturo Noya Linares", 50, 600, 30, YELLOW);
+		DrawText("Game Designer           Federico Delgado", 50, 200, 30, GREEN);
+		DrawText("Game Artists            Sofia Migliavacca", 50, 300, 30, GREEN);
+		DrawText("                            Sofia Regues Garcia", 55, 350, 30, GREEN);
+		DrawText("Audio                     Leonel Suarez ", 50, 450, 30, GREEN);
+		DrawText("Programmers          Juan Simon Blanco ", 50, 550, 30, GREEN);
+		DrawText("                           Iker Arturo Noya Linares", 50, 600, 30, GREEN);
+
+		DrawText("Con ayuda de los profesores:", 800, 300, 25, GREEN);
+		DrawText("Edgar Almeida", 900, 350, 25, GREEN);
+		DrawText("Sergio Baretto", 900, 390, 25, GREEN);
+		DrawText("Veronica Calzada", 900, 430, 25, GREEN);
+		DrawText("Francisco Gerardi", 900, 470, 25, GREEN);
+		DrawText("Fernando Chmielewsky", 900, 510, 25, GREEN);
+		DrawText("Cristian Saksida", 900, 550, 25, GREEN);
+		DrawText("Eugenio Taboada", 900, 590, 25, GREEN);
 
 	}
 
