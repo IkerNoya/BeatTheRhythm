@@ -49,17 +49,14 @@ namespace screen
 	Texture2D redButton;
 	Texture2D greenButton;
 	Texture2D yellowButton;
-
 	Image paperSwordImage;
 	Image brokenSwordImage;
 	Image normalSwordImage;
 	Image epicSwordImage;
-
 	Texture2D paperSword;
 	Texture2D brokenSword;
 	Texture2D normalSword;
 	Texture2D epicSword;
-
 	Image resultPaperImage;
 	Texture2D resultPaper;
 
@@ -202,22 +199,12 @@ namespace screen
 		UnloadTexture(charSpriteSheet);
 		UnloadTexture(hands_1);
 		UnloadTexture(hands_2);
-		UnloadTexture(paperSword);
-		UnloadTexture(brokenSword);
-		UnloadTexture(normalSword);
-		UnloadTexture(epicSword);
-		UnloadTexture(resultPaper);
 
 		UnloadImage(charT);
 		UnloadImage(background);
 		UnloadImage(sLabLogo);
 		UnloadImage(iLogo);
 		UnloadImage(backAnim);
-		UnloadImage(paperSwordImage);
-		UnloadImage(brokenSwordImage);
-		UnloadImage(normalSwordImage);
-		UnloadImage(epicSwordImage);
-		UnloadImage(resultPaperImage);
 
 		UnloadSound(hit);
 		UnloadSound(miss);
@@ -476,7 +463,7 @@ namespace screen
 		else
 			DrawText("DETECTED BUTTON: NONE", 10, 430, 10, RED);
 
-		DrawText("v0.7", 1200, 680, 30, BLACK);
+		DrawText("v0.6", 1200, 680, 30, BLACK);
 #endif //EXTRA_INFO
 	}
 
@@ -632,14 +619,16 @@ namespace screen
 
 		if (healthPoints < 0)
 		{
+<<<<<<< HEAD
+			states = menu;
 			healthPoints = 10;
-			colorCounter = 0;
-			winCounter = 0;
-			states = result;
-			healthPoints = 10;
+			score = 0;
 			colorCounter = 0;
 			winCounter = 0;
 			gameplayDinamicCircle->setRadius(MaxRadius);
+=======
+			states = result;
+>>>>>>> 6dd4bbbe79400573fe10911e724f617d8269bf85
 		}
 
 
@@ -664,18 +653,18 @@ namespace screen
 
 		if (winCounter >= winningHits)
 		{
+<<<<<<< HEAD
+			states = menu;
 			winCounter = 0;
 			scoreMultiplier = 1.0f;
 			multiplier.height = 20;
-			colorCounter = 0;
-			healthPoints = 10;
-			states = result;
-			winCounter = 0;
-			scoreMultiplier = 1.0f;
-			multiplier.height = 20;
+			score = 0;
 			colorCounter = 0;
 			healthPoints = 10;
 			gameplayDinamicCircle->setRadius(MaxRadius);
+=======
+			states = result;
+>>>>>>> 6dd4bbbe79400573fe10911e724f617d8269bf85
 		}
 	}
 	void Screens::drawGameplay()

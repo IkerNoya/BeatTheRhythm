@@ -13,7 +13,7 @@ namespace game
 
 	void init()
 	{
-		InitWindow(1280, 720, "BeatTheRhythm v0.6");
+		InitWindow(1280, 720, "Beat The Rhythm v0.7");
 		InitAudioDevice();
 #ifdef RELEASE_CONFIG
 		ToggleFullscreen();
@@ -56,6 +56,11 @@ namespace game
 			UpdateMusicStream(gameplayMusic);
 			screens->updateGameplay();
 			break;
+
+		case screens->result:
+			UpdateMusicStream(menuMusic);
+			screens->updateResult();
+			break;
 		}
 	}
 
@@ -76,7 +81,11 @@ namespace game
 			break;
 
 		case screens->gameplay:
-			screens->drawGameplay();
+			screens->drawGameplay();	
+			break;
+
+		case screens->result:
+			screens->drawResult();
 			break;
 		}
 	}
