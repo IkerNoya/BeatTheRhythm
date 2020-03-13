@@ -94,6 +94,7 @@ namespace screen
 	Rectangle fade;
 
 	Sound hit;
+	Sound miss;
 
 	enum CurrentColor
 	{
@@ -195,6 +196,7 @@ namespace screen
 		UnloadImage(backAnim);
 
 		UnloadSound(hit);
+		UnloadSound(miss);
 	}
 
 	void Screens::initData()
@@ -303,6 +305,7 @@ namespace screen
 		greenPointCircle = LoadTextureFromImage(greenPointCircleImage);
 
 		hit = LoadSound("res/assets/Audio/Hit.ogg");
+		miss = LoadSound("res/assets/Audio/FAIL.ogg");
 		SetSoundVolume(hit, 0.15f);
 
 		buttonRelease = false;
@@ -487,6 +490,20 @@ namespace screen
 			pointGet = true;
 			handAnim = true;
 			winCounter++;
+			PlaySound(miss);
+		}
+
+		if (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && (gameplayDinamicCircle->getRadius() > middleRadius)
+			|| IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT) && (gameplayDinamicCircle->getRadius() > middleRadius)
+			|| IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_UP) && (gameplayDinamicCircle->getRadius() > middleRadius))
+		{
+			multiplier.height = 20.0f;
+			scoreMultiplier = 1;
+			healthPoints--;
+			pointGet = true;
+			handAnim = true;
+			winCounter++;
+			PlaySound(miss);
 		}
 
 		if (currentColor == yellow && IsKeyPressed(KEY_A) || currentColor == yellow && IsKeyPressed(KEY_D)
@@ -498,6 +515,7 @@ namespace screen
 			healthPoints--;
 			pointGet = true;
 			handAnim = true;
+			PlaySound(miss);
 		}
 
 		if (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == yellow && buttonRelease == false
@@ -578,6 +596,7 @@ namespace screen
 		{
 			changeRadius = false;
 		}
+
 		if (changeRadius == false)
 		{
 			gameplayDinamicCircle->setRadius(gameplayDinamicCircle->getRadius() - (55.0f*GetFrameTime()));
