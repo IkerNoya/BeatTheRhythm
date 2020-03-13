@@ -613,13 +613,7 @@ namespace screen
 
 		if (winCounter >= winningHits)
 		{
-			states = menu;
-			winCounter = 0;
-			scoreMultiplier = 1.0f;
-			multiplier.height = 20;
-			score = 0;
-			colorCounter = 0;
-			healthPoints = 10;
+			states = result;
 		}
 	}
 	void Screens::drawGameplay()
