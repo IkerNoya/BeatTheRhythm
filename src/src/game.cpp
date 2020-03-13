@@ -10,6 +10,8 @@ namespace game
 
 	Music menuMusic;
 	Music gameplayMusic;
+	Music win;
+	int timer;
 
 	void init()
 	{
@@ -19,13 +21,19 @@ namespace game
 		ToggleFullscreen();
 #endif // RELEASE_CONFIG
 		SetTargetFPS(120);
+		timer = 0;
 		menuMusic = LoadMusicStream("res/assets/Audio/Menu.ogg");
 		gameplayMusic = LoadMusicStream("res/assets/Audio/Gameplay-song.ogg");
+		win = LoadMusicStream("res/assets/Audio/win.ogg");
+
 		SetMusicVolume(menuMusic, 0.2);
 		SetMusicVolume(gameplayMusic, 0.2);
+		SetMusicVolume(win, 0.2);
+
 		screens = new Screens();
 		screens->initData();
 		screens->states = screens->menu;
+
 		PlayMusicStream(menuMusic);
 	}
 
@@ -34,7 +42,9 @@ namespace game
 		switch (screens->states)
 		{
 		case screens->menu:
+			timer = 0;
 			StopMusicStream(gameplayMusic);
+			StopMusicStream(win);
 			PlayMusicStream(menuMusic);
 			UpdateMusicStream(menuMusic);
 			screens->updateMenu();
@@ -58,7 +68,10 @@ namespace game
 			break;
 
 		case screens->result:
-			UpdateMusicStream(menuMusic);
+			timer++;
+			StopMusicStream(gameplayMusic);
+			PlayMusicStream(win);
+			UpdateMusicStream(win);
 			screens->updateResult();
 			break;
 		}
