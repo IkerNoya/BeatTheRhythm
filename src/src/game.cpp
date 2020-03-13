@@ -56,6 +56,11 @@ namespace game
 			UpdateMusicStream(gameplayMusic);
 			screens->updateGameplay();
 			break;
+
+		case screens->result:
+			UpdateMusicStream(menuMusic);
+			screens->updateResult();
+			break;
 		}
 	}
 
@@ -76,7 +81,11 @@ namespace game
 			break;
 
 		case screens->gameplay:
-			screens->drawGameplay();
+			screens->drawGameplay();	
+			break;
+
+		case screens->result:
+			screens->drawResult();
 			break;
 		}
 	}

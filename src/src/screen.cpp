@@ -17,6 +17,7 @@ namespace screen
 	const int animFrames = 4;
 	const int framesLimit = 60;
 	const int chrono = 60;
+	const int maxScore = 6600;
 
 	Screens* screens;
 
@@ -48,6 +49,16 @@ namespace screen
 	Texture2D redButton;
 	Texture2D greenButton;
 	Texture2D yellowButton;
+	Image paperSwordImage;
+	Image brokenSwordImage;
+	Image normalSwordImage;
+	Image epicSwordImage;
+	Texture2D paperSword;
+	Texture2D brokenSword;
+	Texture2D normalSword;
+	Texture2D epicSword;
+	Image resultPaperImage;
+	Texture2D resultPaper;
 
 	Image hands_1_image;
 	Texture2D hands_1;
@@ -263,6 +274,31 @@ namespace screen
 		ImageResize(&hands_2_image, 900, 500);
 		hands_2 = LoadTextureFromImage(hands_2_image);
 
+		//------------------Result Screen Sprites-----------------------------
+
+		resultPaperImage = LoadImage("res/assets/resultPaper.png");
+		ImageResize(&resultPaperImage, 1280, 720);
+
+		paperSwordImage = LoadImage("res/assets/resultSwordPaper.png");
+		ImageResize(&paperSwordImage, 540, 310);
+
+		brokenSwordImage = LoadImage("res/assets/resultSwordBroken.png");
+		ImageResize(&brokenSwordImage, 540, 310);
+
+		normalSwordImage = LoadImage("res/assets/resultSwordNormal.png");
+		ImageResize(&normalSwordImage, 540, 310);
+
+		epicSwordImage = LoadImage("res/assets/resultSwordEpic.png");
+		ImageResize(&epicSwordImage, 540, 310);
+
+		//----------------------------------------------------------------------
+
+		resultPaper = LoadTextureFromImage(resultPaperImage);
+		paperSword = LoadTextureFromImage(paperSwordImage);
+		brokenSword = LoadTextureFromImage(brokenSwordImage);
+		normalSword = LoadTextureFromImage(normalSwordImage);
+		epicSword = LoadTextureFromImage(epicSwordImage);
+
 		timerHands = 0;
 		handAnim = false;
 
@@ -275,7 +311,7 @@ namespace screen
 		animTimer = 0;
 		secondTimer = 0;
 
-
+		//------------------Gameplay Screen Buttons-----------------------------
 		redButtonImage = LoadImage("res/assets/buttonRedNormal.png");
 		ImageResize(&redButtonImage, 268, 157);
 		redButton = LoadTextureFromImage(redButtonImage);
@@ -364,7 +400,10 @@ namespace screen
 			states = credits;
 		}
 
-
+		if (IsKeyPressed(KEY_Q))
+		{
+			states = result;
+		}
 
 	}
 	void Screens::drawMenu()
@@ -560,11 +599,7 @@ namespace screen
 
 		if (healthPoints < 0)
 		{
-			states = menu;
-			healthPoints = 10;
-			score = 0;
-			colorCounter = 0;
-			winCounter = 0;
+			states = result;
 		}
 
 		if (winCounter>=winningHits-1)
@@ -675,10 +710,70 @@ namespace screen
 
 	void Screens::updateResult()
 	{
+		if (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_DOWN)
+			|| IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT)
+			|| IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_UP))
+		{
+			gameplayDinamicCircle->setRadius(MaxRadius);
+			states = menu;
+			healthPoints = 10;
+			score = 0;
+			colorCounter = 0;
+			winCounter = 0;
+		}
+		if (IsKeyPressed(KEY_A) || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_D))
+		{
+			gameplayDinamicCircle->setRadius(MaxRadius);
+			states = menu;
+			healthPoints = 10;
+			score = 0;
+			colorCounter = 0;
+			winCounter = 0;
+		}
 	
 	}
 	void Screens::drawResult()
 	{
+		ClearBackground(BLACK);
+		DrawTexture(gameBackground, 1, 1, WHITE);
+
+		DrawTexture(resultPaper, 1, 1, WHITE);
+		DrawText("Score Results", 480, 115, 40, BLACK);
+		DrawText(TextFormat("%08i", score), 535, 155, 40, BLACK);
+		DrawText("Press any button to continue", 400, 645, 30, BLACK);
+
+		if (score<(maxScore/4))
+		{
+			DrawTexture(paperSword, 320, 150, WHITE);
+			DrawText("At least it's cute UwU", 465, 445, 30, BLACK);
+		}
+		if (score > (maxScore / 4) && score < (maxScore / 2))
+		{
+			DrawTexture(brokenSword, 355, 150, WHITE);
+			/*DrawText("Broken, like my heart", 465, 445, 30, BLACK);
+			DrawText("when she left me T.T", 470, 475, 30, BLACK);
+
+			DrawText("The king died, i don't want to be mean,", 365, 445, 29, DARKBLUE);
+			DrawText("but it's because of the useless sword", 365, 475, 29, DARKBLUE);
+			DrawText("you gave him", 540, 505, 30, DARKBLUE);*/
+
+			DrawText("A failure, like my mom always", 420, 445, 30, DARKBLUE);
+			DrawText("said to me U_U", 520, 475, 30, DARKBLUE);
+		}
+		if (score > (maxScore / 2) && score < ((maxScore / 2) + (maxScore / 4)))
+		{
+			DrawTexture(normalSword, 335, 150, WHITE);
+			DrawText("Finally, we didn't expect it,", 445, 445, 29, DARKBLUE);
+			DrawText("but you did it, *clap* *clap*", 435, 475, 29, DARKBLUE);
+		}
+		if (score > ((maxScore / 2) + (maxScore / 4)))
+		{
+			DrawTexture(epicSword, 350, 170, WHITE);
+			DrawText("I'm forced by the programmers to say", 365, 445, 29, DARKBLUE);
+			DrawText("congratulations... That's it?", 445, 475, 29, DARKBLUE);
+			DrawText("you can go now >:C", 505, 505, 29, DARKBLUE);
+		}
+
 	
 	}
 
