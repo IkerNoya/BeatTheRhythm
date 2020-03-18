@@ -63,6 +63,13 @@ namespace screen
 	Texture2D greenButtonHappy;
 	Texture2D yellowButtonHappy;
 
+	Image redButtonFailImage;
+	Image greenButtonFailImage;
+	Image yellowButtonFailImage;
+	Texture2D redButtonFail;
+	Texture2D greenButtonFail;
+	Texture2D yellowButtonFail;
+
 	Image paperSwordImage;
 	Image brokenSwordImage;
 	Image normalSwordImage;
@@ -128,6 +135,10 @@ namespace screen
 	bool goodPointAnimRed;
 	bool goodPointAnimGreen;
 	bool goodPointAnimYellow;
+
+	bool failPointAnimRed;
+	bool failPointAnimGreen;
+	bool failPointAnimYellow;
 
 	enum CurrentColor
 	{
@@ -386,6 +397,19 @@ namespace screen
 		yellowButtonHappy = LoadTextureFromImage(yellowButtonHappyImage);
 
 
+		redButtonFailImage = LoadImage("res/assets/buttonRedFail.png");
+		ImageResize(&redButtonFailImage, 268, 157);
+		redButtonFail = LoadTextureFromImage(redButtonFailImage);
+
+		greenButtonFailImage = LoadImage("res/assets/buttongreenFail.png");
+		ImageResize(&greenButtonFailImage, 268, 157);
+		greenButtonFail = LoadTextureFromImage(greenButtonFailImage);
+
+		yellowButtonFailImage = LoadImage("res/assets/buttonyellowFail.png");
+		ImageResize(&yellowButtonFailImage, 268, 157);
+		yellowButtonFail = LoadTextureFromImage(yellowButtonFailImage);
+
+
 		hit = LoadSound("res/assets/Audio/Hit.ogg");
 		miss = LoadSound("res/assets/Audio/FAIL.ogg");
 		SetSoundVolume(hit, 0.15f);
@@ -396,6 +420,10 @@ namespace screen
 		goodPointAnimRed = false;
 		goodPointAnimGreen = false;
 		goodPointAnimYellow = false;
+
+		failPointAnimRed = false;
+		failPointAnimGreen = false;
+		failPointAnimYellow = false;
 	}
 
 	void Screens::updateMenu()
@@ -570,6 +598,9 @@ namespace screen
 			goodPointAnimRed = false;
 			goodPointAnimGreen = false;
 			goodPointAnimYellow = false;
+			failPointAnimRed = false;
+			failPointAnimGreen = false;
+			failPointAnimYellow = false;
 		}
 
 		if (gameplayDinamicCircle->getRadius() <= initialRadius)
@@ -580,6 +611,22 @@ namespace screen
 				scoreMultiplier = 1;
 				healthPoints--;
 				winCounter++;
+
+				if (currentColor==yellow)
+				{
+					failPointAnimYellow = true;
+					begin = chrono::steady_clock::now();
+				}
+				else if (currentColor==green)
+				{
+					failPointAnimGreen = true;
+					begin = chrono::steady_clock::now();
+				}
+				else if (currentColor==red)
+				{
+					failPointAnimRed = true;
+					begin = chrono::steady_clock::now();
+				}
 			}
 
 			gameplayDinamicCircle->setRadius(MaxRadius);
@@ -605,14 +652,24 @@ namespace screen
 			if (currentColor==yellow)
 			{
 				goodPointAnimYellow = true;
+				failPointAnimRed = false;
+				failPointAnimGreen = false;
+				failPointAnimYellow = false;
+
 			}
 			else if (currentColor==red)
 			{
 				goodPointAnimRed = true;
+				failPointAnimRed = false;
+				failPointAnimGreen = false;
+				failPointAnimYellow = false;
 			}
 			else if (currentColor==green)
 			{
 				goodPointAnimGreen = true;
+				failPointAnimRed = false;
+				failPointAnimGreen = false;
+				failPointAnimYellow = false;
 			}
 		}
 
@@ -627,6 +684,22 @@ namespace screen
 			handAnim = true;
 			winCounter++;
 			PlaySound(miss);
+
+			if (IsKeyPressed(KEY_S))
+			{
+				failPointAnimYellow = true;
+				begin = chrono::steady_clock::now();
+			}
+			else if (IsKeyPressed(KEY_A))
+			{
+				failPointAnimGreen = true;
+				begin = chrono::steady_clock::now();
+			}
+			else if (IsKeyPressed(KEY_D))
+			{
+				failPointAnimRed = true;
+				begin = chrono::steady_clock::now();
+			}
 		}
 
 		if (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && (gameplayDinamicCircle->getRadius() > middleRadius)
@@ -652,6 +725,22 @@ namespace screen
 			pointGet = true;
 			handAnim = true;
 			PlaySound(miss);
+
+			if (IsKeyPressed(KEY_S))
+			{
+				failPointAnimYellow = true;
+				begin = chrono::steady_clock::now();
+			}
+			else if (IsKeyPressed(KEY_A))
+			{
+				failPointAnimGreen = true;
+				begin = chrono::steady_clock::now();
+			}
+			else if (IsKeyPressed(KEY_D))
+			{
+				failPointAnimRed = true;
+				begin = chrono::steady_clock::now();
+			}
 		}
 
 		if (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == yellow && buttonRelease == false
@@ -809,6 +898,11 @@ namespace screen
 			DrawTexture(yellowButtonHappy, gameplayButton->getPos().x - 133, gameplayButton->getPos().y - 233, WHITE);
 			DrawCircleLines(gameplayButton->getPos().x, gameplayButton->getPos().y - 150, gameplayButton->getRadius() + 2, BLACK);
 		}
+		if (failPointAnimYellow==true)
+		{
+			DrawTexture(yellowButtonFail, gameplayButton->getPos().x - 133, gameplayButton->getPos().y - 233, WHITE);
+			DrawCircleLines(gameplayButton->getPos().x, gameplayButton->getPos().y - 150, gameplayButton->getRadius() + 2, BLACK);
+		}
 
 
 		DrawTexture(greenButton, gameplayButton->getPos().x - (320 + 131), gameplayButton->getPos().y - 135, WHITE);
@@ -819,6 +913,11 @@ namespace screen
 			DrawTexture(greenButtonHappy, gameplayButton->getPos().x - (320 + 131), gameplayButton->getPos().y - 135, WHITE);
 			DrawCircleLines(gameplayButton->getPos().x - 318, gameplayButton->getPos().y - 50, gameplayButton->getRadius() + 2, BLACK);
 		}
+		if (failPointAnimGreen == true)
+		{
+			DrawTexture(greenButtonFail, gameplayButton->getPos().x - (320 + 131), gameplayButton->getPos().y - 135, WHITE);
+			DrawCircleLines(gameplayButton->getPos().x - 318, gameplayButton->getPos().y - 50, gameplayButton->getRadius() + 2, BLACK);
+		}
 
 
 		DrawTexture(redButton, (gameplayButton->getPos().x + 320) - 135, gameplayButton->getPos().y - 135, WHITE);
@@ -827,6 +926,11 @@ namespace screen
 		if (goodPointAnimRed == true)
 		{
 			DrawTexture(redButtonHappy, (gameplayButton->getPos().x + 320) - 135, gameplayButton->getPos().y - 135, WHITE);
+			DrawCircleLines(gameplayButton->getPos().x + 318, gameplayButton->getPos().y - 50, gameplayButton->getRadius() + 2, BLACK);
+		}
+		if (failPointAnimRed == true)
+		{
+			DrawTexture(redButtonFail, (gameplayButton->getPos().x + 320) - 135, gameplayButton->getPos().y - 135, WHITE);
 			DrawCircleLines(gameplayButton->getPos().x + 318, gameplayButton->getPos().y - 50, gameplayButton->getRadius() + 2, BLACK);
 		}
 
