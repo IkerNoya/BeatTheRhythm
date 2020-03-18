@@ -635,6 +635,7 @@ namespace screen
 			colorCounter++;
 		}
 
+		//-------------------------------------------------------KEYBOARD POINT-----------------------------------------------------
 		if (IsKeyPressed(KEY_S) && (gameplayDinamicCircle->getRadius() <= middleRadius + 5 && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == yellow
 			|| IsKeyPressed(KEY_A) && (gameplayDinamicCircle->getRadius() <= middleRadius + 5 && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == green
 			|| IsKeyPressed(KEY_D) && (gameplayDinamicCircle->getRadius() <= middleRadius + 5 && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == red)
@@ -672,7 +673,7 @@ namespace screen
 				failPointAnimYellow = false;
 			}
 		}
-
+		//------------------------------------------------------KEYBOARD FAIL---------------------------------------------------------
 		if (IsKeyPressed(KEY_S) && (gameplayDinamicCircle->getRadius() > middleRadius)
 			|| IsKeyPressed(KEY_A) && (gameplayDinamicCircle->getRadius() > middleRadius)
 			|| IsKeyPressed(KEY_D) && (gameplayDinamicCircle->getRadius() > middleRadius))
@@ -702,6 +703,7 @@ namespace screen
 			}
 		}
 
+		//------------------------------------------------------GAMEPAD FAIL---------------------------------------------------
 		if (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && (gameplayDinamicCircle->getRadius() > middleRadius)
 			|| IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT) && (gameplayDinamicCircle->getRadius() > middleRadius)
 			|| IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_UP) && (gameplayDinamicCircle->getRadius() > middleRadius))
@@ -713,8 +715,25 @@ namespace screen
 			handAnim = true;
 			winCounter++;
 			PlaySound(miss);
+
+			if (IsKeyPressed(IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_DOWN)))
+			{
+				failPointAnimYellow = true;
+				begin = chrono::steady_clock::now();
+			}
+			else if (IsKeyPressed((GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT)))
+			{
+				failPointAnimGreen = true;
+				begin = chrono::steady_clock::now();
+			}
+			else if (IsKeyPressed((GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_UP)))
+			{
+				failPointAnimRed = true;
+				begin = chrono::steady_clock::now();
+			}
 		}
 
+		//--------------------------------------------KEYBOARD FAIL-------------------------------------------------------
 		if (currentColor == yellow && IsKeyPressed(KEY_A) || currentColor == yellow && IsKeyPressed(KEY_D)
 			|| currentColor == green && IsKeyPressed(KEY_S) || currentColor == green && IsKeyPressed(KEY_D)
 			|| currentColor == red && IsKeyPressed(KEY_A) || currentColor == red && IsKeyPressed(KEY_S))
@@ -743,6 +762,7 @@ namespace screen
 			}
 		}
 
+		//------------------------------------------------GAMEPAD POINT-------------------------------------------------------
 		if (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == yellow && buttonRelease == false
 			|| (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == green && buttonRelease == false
 			|| (IsGamepadButtonReleased(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_RIGHT_FACE_UP) && (gameplayDinamicCircle->getRadius() <= middleRadius && gameplayDinamicCircle->getRadius() > initialRadius) && currentColor == red && buttonRelease == false)))
@@ -755,6 +775,30 @@ namespace screen
 			buttonRelease = true;
 			PlaySound(hit);
 			handAnim = true;
+			begin = chrono::steady_clock::now();
+
+			if (currentColor == yellow)
+			{
+				goodPointAnimYellow = true;
+				failPointAnimRed = false;
+				failPointAnimGreen = false;
+				failPointAnimYellow = false;
+
+			}
+			else if (currentColor == red)
+			{
+				goodPointAnimRed = true;
+				failPointAnimRed = false;
+				failPointAnimGreen = false;
+				failPointAnimYellow = false;
+			}
+			else if (currentColor == green)
+			{
+				goodPointAnimGreen = true;
+				failPointAnimRed = false;
+				failPointAnimGreen = false;
+				failPointAnimYellow = false;
+			}
 		}
 
 		if (handAnim == true)
