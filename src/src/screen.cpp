@@ -1,6 +1,12 @@
 #include "screen.h"
 #include "circle.h"
 #include "raylib.h"
+#include<chrono>
+#include <thread>
+
+using namespace std;
+using namespace std::chrono;
+using namespace std::this_thread;
 
 using namespace circle;
 
@@ -49,6 +55,13 @@ namespace screen
 	Texture2D redButton;
 	Texture2D greenButton;
 	Texture2D yellowButton;
+
+	Image redButtonHappyImage;
+	Image greenButtonHappyImage;
+	Image yellowButtonHappyImage;
+	Texture2D redButtonHappy;
+	Texture2D greenButtonHappy;
+	Texture2D yellowButtonHappy;
 
 	Image paperSwordImage;
 	Image brokenSwordImage;
@@ -109,6 +122,12 @@ namespace screen
 
 	Sound hit;
 	Sound miss;
+
+	chrono::steady_clock::time_point begin;
+	chrono::steady_clock::time_point end;
+	bool goodPointAnimRed;
+	bool goodPointAnimGreen;
+	bool goodPointAnimYellow;
 
 	enum CurrentColor
 	{
@@ -353,11 +372,30 @@ namespace screen
 		ImageResize(&greenPointCircleImage, 278, 167);
 		greenPointCircle = LoadTextureFromImage(greenPointCircleImage);
 
+
+		redButtonHappyImage = LoadImage("res/assets/buttonRedHappy.png");
+		ImageResize(&redButtonHappyImage, 268, 157);
+		redButtonHappy = LoadTextureFromImage(redButtonHappyImage);
+
+		greenButtonHappyImage = LoadImage("res/assets/buttongreenHappy.png");
+		ImageResize(&greenButtonHappyImage, 268, 157);
+		greenButtonHappy = LoadTextureFromImage(greenButtonHappyImage);
+
+		yellowButtonHappyImage = LoadImage("res/assets/buttonyellowHappy.png");
+		ImageResize(&yellowButtonHappyImage, 268, 157);
+		yellowButtonHappy = LoadTextureFromImage(yellowButtonHappyImage);
+
+
 		hit = LoadSound("res/assets/Audio/Hit.ogg");
 		miss = LoadSound("res/assets/Audio/FAIL.ogg");
 		SetSoundVolume(hit, 0.15f);
 
 		buttonRelease = false;
+		begin = chrono::steady_clock::now();
+		end = chrono::steady_clock::now();
+		goodPointAnimRed = false;
+		goodPointAnimGreen = false;
+		goodPointAnimYellow = false;
 	}
 
 	void Screens::updateMenu()
@@ -459,14 +497,37 @@ namespace screen
 
 
 		//-------------------------center circles------------------------------
-		DrawCircleV(buttons[0]->getPos(), buttons[0]->getRadius(), centerCirclePlay);
+		/*DrawCircleV(buttons[0]->getPos(), buttons[0]->getRadius(), centerCirclePlay);
 		DrawCircleLines(buttons[0]->getX(), buttons[0]->getY(), buttons[0]->getRadius(), centerLinePlay);
 
 		DrawCircleV(buttons[1]->getPos(), buttons[1]->getRadius(), centerCircleInst);
 		DrawCircleLines(buttons[1]->getX(), buttons[1]->getY(), buttons[1]->getRadius(), centerLineInst);
 
 		DrawCircleV(buttons[2]->getPos(), buttons[2]->getRadius(), centerCircleCred);
-		DrawCircleLines(buttons[2]->getX(), buttons[2]->getY(), buttons[2]->getRadius(), centerLineCred);
+		DrawCircleLines(buttons[2]->getX(), buttons[2]->getY(), buttons[2]->getRadius(), centerLineCred);*/
+
+		//----------------------------------------------------------------------------------------------
+
+		DrawTexture(yellowPointCircle, gameplayButton->getPos().x - 138, gameplayButton->getPos().y - 88, WHITE);
+		DrawCircleLines(gameplayButton->getPos().x, gameplayButton->getPos().y, gameplayPointLine->getRadius(), BLACK);
+
+		DrawTexture(greenPointCircle, gameplayButton->getPos().x - (320 + 135), gameplayButton->getPos().y - 141, WHITE);
+		DrawCircleLines(gameplayButton->getPos().x - 317, gameplayButton->getPos().y - 53, gameplayPointLine->getRadius(), BLACK);
+
+		DrawTexture(redPointCircle, (gameplayButton->getPos().x + 320) - 139, gameplayButton->getPos().y - 141, WHITE);
+		DrawCircleLines(gameplayButton->getPos().x + 319, gameplayButton->getPos().y - 53, gameplayPointLine->getRadius(), BLACK);
+
+		//-------------------------center circles------------------------------
+
+
+		DrawTexture(yellowButton, gameplayButton->getPos().x - 133, gameplayButton->getPos().y - 83, WHITE);
+		DrawCircleLines(gameplayButton->getPos().x, gameplayButton->getPos().y, gameplayButton->getRadius() + 2, BLACK);
+
+		DrawTexture(greenButton, gameplayButton->getPos().x - (320 + 130), gameplayButton->getPos().y - 138, WHITE);
+		DrawCircleLines(gameplayButton->getPos().x - 317, gameplayButton->getPos().y - 54, gameplayButton->getRadius() + 2, BLACK);
+
+		DrawTexture(redButton, (gameplayButton->getPos().x + 320) - 134, gameplayButton->getPos().y - 138, WHITE);
+		DrawCircleLines(gameplayButton->getPos().x + 319, gameplayButton->getPos().y - 54, gameplayButton->getRadius() + 2, BLACK);
 
 		//DrawRectangleRec(fade, fadeScreen);
 
@@ -502,6 +563,15 @@ namespace screen
 
 	void Screens::updateGameplay()
 	{
+		end = chrono::steady_clock::now();
+
+		if (chrono::duration_cast<chrono::milliseconds>(end - begin).count() >= 500)
+		{
+			goodPointAnimRed = false;
+			goodPointAnimGreen = false;
+			goodPointAnimYellow = false;
+		}
+
 		if (gameplayDinamicCircle->getRadius() <= initialRadius)
 		{
 			if (pointGet == false)
@@ -530,6 +600,20 @@ namespace screen
 			winCounter++;
 			PlaySound(hit);
 			handAnim = true;
+			begin = chrono::steady_clock::now();
+
+			if (currentColor==yellow)
+			{
+				goodPointAnimYellow = true;
+			}
+			else if (currentColor==red)
+			{
+				goodPointAnimRed = true;
+			}
+			else if (currentColor==green)
+			{
+				goodPointAnimGreen = true;
+			}
 		}
 
 		if (IsKeyPressed(KEY_S) && (gameplayDinamicCircle->getRadius() > middleRadius)
@@ -717,16 +801,34 @@ namespace screen
 
 		//-------------------------center circles------------------------------
 
-
 		DrawTexture(yellowButton, gameplayButton->getPos().x -133 , gameplayButton->getPos().y - 233, WHITE);
 		DrawCircleLines(gameplayButton->getPos().x, gameplayButton->getPos().y - 150, gameplayButton->getRadius()+2, BLACK);
+
+		if (goodPointAnimYellow == true)
+		{
+			DrawTexture(yellowButtonHappy, gameplayButton->getPos().x - 133, gameplayButton->getPos().y - 233, WHITE);
+			DrawCircleLines(gameplayButton->getPos().x, gameplayButton->getPos().y - 150, gameplayButton->getRadius() + 2, BLACK);
+		}
+
 
 		DrawTexture(greenButton, gameplayButton->getPos().x - (320 + 131), gameplayButton->getPos().y - 135, WHITE);
 		DrawCircleLines(gameplayButton->getPos().x - 318, gameplayButton->getPos().y - 50, gameplayButton->getRadius()+2, BLACK);
 
+		if (goodPointAnimGreen == true)
+		{
+			DrawTexture(greenButtonHappy, gameplayButton->getPos().x - (320 + 131), gameplayButton->getPos().y - 135, WHITE);
+			DrawCircleLines(gameplayButton->getPos().x - 318, gameplayButton->getPos().y - 50, gameplayButton->getRadius() + 2, BLACK);
+		}
+
+
 		DrawTexture(redButton, (gameplayButton->getPos().x + 320) - 135, gameplayButton->getPos().y - 135, WHITE);
 		DrawCircleLines(gameplayButton->getPos().x + 318, gameplayButton->getPos().y - 50, gameplayButton->getRadius()+2, BLACK);
 
+		if (goodPointAnimRed == true)
+		{
+			DrawTexture(redButtonHappy, (gameplayButton->getPos().x + 320) - 135, gameplayButton->getPos().y - 135, WHITE);
+			DrawCircleLines(gameplayButton->getPos().x + 318, gameplayButton->getPos().y - 50, gameplayButton->getRadius() + 2, BLACK);
+		}
 
 		DrawText(TextFormat("Score: %08i", score), 350, 10, 80, BLUE);
 
